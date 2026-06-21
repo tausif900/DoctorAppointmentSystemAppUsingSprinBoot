@@ -1,0 +1,18 @@
+package com.study.DoctorAppointmentSystem.services;
+
+import java.util.List;
+
+import com.study.DoctorAppointmentSystem.dtos.DoctorDto;
+
+public interface DoctorService {
+
+	DoctorDto addDoctor(DoctorDto doctorDto);
+
+	List<DoctorDto> getAllDoctors();
+
+	DoctorDto getDoctorById(Integer id);
+
+	DoctorDto updateDoctor(Integer id, DoctorDto doctorDto);
+
+	void deleteDoctor(Integer id);
+}
