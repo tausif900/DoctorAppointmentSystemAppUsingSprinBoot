@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.study.DoctorAppointmentSystem.entity.User;
 
-
-public interface UserRepositories extends JpaRepository<User, String>{
+public interface UserRepositories extends JpaRepository<User, Integer> {
 
 }
