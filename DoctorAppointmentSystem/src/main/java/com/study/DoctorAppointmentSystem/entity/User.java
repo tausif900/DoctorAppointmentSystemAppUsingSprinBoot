@@ -30,6 +30,5 @@ public class User {
 	@Column(nullable = false)
 	private String user_phNo;
 
-	@Column(nullable = false)
 	private String user_role;
 }

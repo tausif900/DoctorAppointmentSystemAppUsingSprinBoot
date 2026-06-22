@@ -6,7 +6,7 @@ import com.study.DoctorAppointmentSystem.dtos.DoctorDto;
 
 public interface DoctorService {
 
-	DoctorDto addDoctor(DoctorDto doctorDto);
+	DoctorDto addDoctor(Integer userId, DoctorDto doctorDto);
 
 	List<DoctorDto> getAllDoctors();
 

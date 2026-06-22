@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.study.DoctorAppointmentSystem.dtos.DoctorDto;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
+import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.repository.DoctorRepository;
+import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.DoctorService;
 
 @Service
@@ -21,11 +23,16 @@ public class DoctorServiceImpl implements DoctorService {
 	@Autowired
 	private DoctorRepository doctorRepository;
 
+	@Autowired
+	private UserRepositories userRepositories;
+
 	@Override
-	public DoctorDto addDoctor(DoctorDto doctorDto) {
+	public DoctorDto addDoctor(Integer userId, DoctorDto doctorDto) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
-		Doctor saveDoctor = doctorRepository.save(doctor);
-		return modelMapper.map(saveDoctor, DoctorDto.class);
+		doctor.setUser(user);
+		Doctor savedDoctor = doctorRepository.save(doctor);
+		return modelMapper.map(savedDoctor, DoctorDto.class);
 	}
 
 	@Override
@@ -55,7 +62,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public void deleteDoctor(Integer id) {
-		Doctor doctor = doctorRepository.findById(id).orElseThrow(()->new RuntimeException("Id not found"));
+		Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
 		doctorRepository.delete(doctor);
 	}
 

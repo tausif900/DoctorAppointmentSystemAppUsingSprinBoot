@@ -16,4 +16,5 @@ public class DoctorDto {
 	private String qualification;
 	
 	private Integer experience;
+	
 }

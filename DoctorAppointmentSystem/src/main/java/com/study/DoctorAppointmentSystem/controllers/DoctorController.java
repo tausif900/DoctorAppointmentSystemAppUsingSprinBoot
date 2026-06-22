@@ -29,9 +29,9 @@ public class DoctorController {
 //	-----------------------------------------
 //	POST - localhost:8080/doctors
 //	-----------------------------------------
-	@PostMapping
-	public ResponseEntity<DoctorDto> addDoctor(@RequestBody DoctorDto doctor) {
-		return new ResponseEntity<DoctorDto>(doctorService.addDoctor(doctor), HttpStatus.CREATED);
+	@PostMapping("/register/{userId}")
+	public ResponseEntity<DoctorDto> addDoctor(@PathVariable Integer userId, @RequestBody DoctorDto doctorDto) {
+		return new ResponseEntity<DoctorDto>(doctorService.addDoctor(userId, doctorDto), HttpStatus.CREATED);
 	}
 
 //	-----------------------------------------
