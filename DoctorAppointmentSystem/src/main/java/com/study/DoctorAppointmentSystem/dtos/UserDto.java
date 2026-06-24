@@ -12,21 +12,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDto {
 
-	private Integer user_id;
+	private Integer id;
 
 	@NotNull(message = "username can't be null")
 	@NotBlank(message = "username can't be blank")
-	private String user_name;
+	private String name;
 
 	@Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$")
-	private String user_email;
+	private String email;
 
 	@Pattern(regexp = "^((?=\\S*?[A-Z])(?=\\S*?[a-z])(?=\\S*?[0-9]).{6,})\\S$")
-	private String user_password;
+	private String password;
 
-	private String user_confirmPassword;
+	private String confirmPassword;
 
-	private String user_phNo;
+	private String phNo;
 
-	private String user_role;
+	private String role;
 }
