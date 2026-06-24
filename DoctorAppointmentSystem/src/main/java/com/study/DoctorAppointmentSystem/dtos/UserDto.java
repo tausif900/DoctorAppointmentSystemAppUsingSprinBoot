@@ -1,6 +1,7 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
 import com.study.DoctorAppointmentSystem.enums.Role;
+import com.study.DoctorAppointmentSystem.validators.PasswordMatch;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@PasswordMatch
 public class UserDto {
 
 	private Integer id;
