@@ -27,7 +27,7 @@ public class DoctorController {
 	private DoctorService doctorService;
 
 //	-----------------------------------------
-//	POST - localhost:8080/doctors
+//	POST - localhost:8080/doctors/register/{userId}
 //	-----------------------------------------
 	@PostMapping("/register/{userId}")
 	public ResponseEntity<DoctorDto> addDoctor(@PathVariable Integer userId, @RequestBody DoctorDto doctorDto) {

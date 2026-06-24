@@ -3,6 +3,8 @@ package com.study.DoctorAppointmentSystem.entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

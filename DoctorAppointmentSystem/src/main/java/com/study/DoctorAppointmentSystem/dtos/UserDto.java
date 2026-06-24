@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
+import com.study.DoctorAppointmentSystem.enums.Role;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -28,5 +30,5 @@ public class UserDto {
 
 	private String phNo;
 
-	private String role;
+	private Role role;
 }
