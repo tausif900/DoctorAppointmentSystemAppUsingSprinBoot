@@ -36,26 +36,29 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public List<PatientDto> getAllPatients() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Patient> patients = patientRepository.findAll();
+		return patients.stream().map((p) -> modelMapper.map(p, PatientDto.class)).toList();
 	}
 
 	@Override
 	public PatientDto getPatientById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		return modelMapper.map(patient, PatientDto.class);
 	}
 
 	@Override
 	public PatientDto updatePatient(Integer id, PatientDto patientDto) {
-		// TODO Auto-generated method stub
-		return null;
+		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		patient.setAge(patientDto.getAge());
+		patient.setGender(patientDto.getGender());
+		Patient updatedPatient = patientRepository.save(patient);
+		return modelMapper.map(updatedPatient, PatientDto.class);
 	}
 
 	@Override
 	public void deletePatient(Integer id) {
-		// TODO Auto-generated method stub
-
+		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		patientRepository.delete(patient);
 	}
 
 }
