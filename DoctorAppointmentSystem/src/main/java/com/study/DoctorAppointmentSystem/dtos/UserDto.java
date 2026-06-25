@@ -6,6 +6,7 @@ import com.study.DoctorAppointmentSystem.validators.PasswordMatch;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class UserDto {
 
 	private Integer id;
 
+	@Size(min = 2, max = 60)
 	@NotNull(message = "username can't be null")
 	@NotBlank(message = "username can't be blank")
 	private String name;
@@ -30,6 +32,7 @@ public class UserDto {
 
 	private String confirmPassword;
 
+	@Size(min = 10, max = 10)
 	private String phNo;
 
 	private Role role;
