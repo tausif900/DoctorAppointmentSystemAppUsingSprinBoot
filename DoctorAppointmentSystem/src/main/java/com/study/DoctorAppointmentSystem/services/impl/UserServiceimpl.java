@@ -21,7 +21,6 @@ public class UserServiceimpl implements UserService {
 
 	@Override
 	public UserDto registerUser(UserDto userDto) {
-		userDto.setRole(Role.Role_Patient);
 		User user = modelMapper.map(userDto, User.class);
 		userRepositories.save(user);
 		return modelMapper.map(user, UserDto.class);
