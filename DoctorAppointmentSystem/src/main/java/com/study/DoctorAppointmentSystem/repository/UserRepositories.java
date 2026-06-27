@@ -6,4 +6,5 @@ import com.study.DoctorAppointmentSystem.entity.User;
 
 public interface UserRepositories extends JpaRepository<User, Integer> {
 
+	boolean existsByEmail(String email);
 }
