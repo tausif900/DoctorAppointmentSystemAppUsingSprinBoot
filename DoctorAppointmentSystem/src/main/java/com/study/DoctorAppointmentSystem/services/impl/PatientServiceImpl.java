@@ -49,7 +49,7 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public PatientDto updatePatient(Integer id, PatientDto patientDto) {
 		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
-		patient.setAge(patientDto.getAge());
+		patient.setDateOfBirth(patientDto.getDateOfBirth());
 		patient.setGender(patientDto.getGender());
 		Patient updatedPatient = patientRepository.save(patient);
 		return modelMapper.map(updatedPatient, PatientDto.class);

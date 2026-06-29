@@ -18,7 +18,7 @@ public class Doctor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer docId;
-
+	
 	@Column(nullable = false)
 	private String specialization;
 

@@ -19,6 +19,7 @@ public class UserDto {
 
 	private Integer id;
 
+	
 	@Size(min = 2, max = 60)
 	@NotNull(message = "username can't be null")
 	@NotBlank(message = "username can't be blank")

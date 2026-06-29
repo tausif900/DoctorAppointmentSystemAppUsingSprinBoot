@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class DoctorDto {
 	
 	private Integer docId;
-	
+
 	private String specialization;
 	
 	private String qualification;

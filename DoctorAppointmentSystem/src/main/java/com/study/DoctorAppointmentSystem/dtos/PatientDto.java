@@ -1,7 +1,6 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,11 +14,19 @@ public class PatientDto {
 	private Integer patientId;
 
 	@NotNull
-	@NotBlank(message = "Age can't be blank")
-	private Integer age;
+	private String dateOfBirth;
 
 	@NotNull
-	@NotBlank(message = "Gender can't be blank")
 	private String gender;
 
+	private String bloodGroup;
+
+	@NotNull
+	private String address;
+
+	private String city;
+
+	private String state;
+
+	private long pincode;
 }
