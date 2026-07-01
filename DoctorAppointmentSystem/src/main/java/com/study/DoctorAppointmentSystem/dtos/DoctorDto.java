@@ -14,6 +14,8 @@ public class DoctorDto {
 	private String specialization;
 	
 	private String qualification;
+
+	private Integer consultationFee;
 	
 	private Integer experience;
 	
