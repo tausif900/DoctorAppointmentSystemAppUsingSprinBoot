@@ -30,7 +30,7 @@ public class Appointment {
 	private LocalDate appointmentDate;
 
 	@Column(nullable = false)
-	private LocalTime appointTime;
+	private LocalTime appointmentTime;
 
 	@ManyToOne
 	private Doctor doctor;
