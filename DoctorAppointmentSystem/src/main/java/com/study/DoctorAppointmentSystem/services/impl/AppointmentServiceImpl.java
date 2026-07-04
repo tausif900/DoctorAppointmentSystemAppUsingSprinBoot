@@ -31,9 +31,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public AppointmentDto addAppointment(AppointmentDto appointmentDto) {
-		Patient patient = patientRepository.findById(appointmentDto.getId())
+		Patient patient = patientRepository.findById(appointmentDto.getPatientId())
 				.orElseThrow(() -> new RuntimeException("Patient Id not found"));
-		Doctor doctor = doctorRepository.findById(appointmentDto.getId())
+		Doctor doctor = doctorRepository.findById(appointmentDto.getDoctorId())
 				.orElseThrow(() -> new RuntimeException("Doctor Id not found"));
 		Appointment appointment = new Appointment();
 
