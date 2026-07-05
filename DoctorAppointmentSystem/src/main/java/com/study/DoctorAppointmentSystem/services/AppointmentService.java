@@ -1,13 +1,18 @@
 package com.study.DoctorAppointmentSystem.services;
 
 import java.util.List;
-
-import com.study.DoctorAppointmentSystem.dtos.AppointmentDto;
+import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
+import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 
 public interface AppointmentService {
-	AppointmentDto addAppointment(AppointmentDto appointmentDto);
+	
+	AppointmentResponseDto addAppointment(AppointmentRequestDto appointmentRequestDto);
 
-	AppointmentDto getAppointmentById(Integer id);
+	AppointmentResponseDto getAppointmentById(Integer id);
 
-	List<AppointmentDto> getAllAppointment();
+	List<AppointmentResponseDto> getAllAppointments();
+	
+	
+	
+	
 }

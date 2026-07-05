@@ -6,7 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.study.DoctorAppointmentSystem.dtos.AppointmentDto;
+import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
+import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.Patient;
@@ -32,15 +33,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public AppointmentDto addAppointment(AppointmentDto appointmentDto) {
-		Patient patient = patientRepository.findById(appointmentDto.getPatientId())
+	public AppointmentResponseDto addAppointment(AppointmentRequestDto appointmentRequestDto) {
+		Patient patient = patientRepository.findById(appointmentRequestDto.getPatientId())
 				.orElseThrow(() -> new RuntimeException("Patient Id not found"));
-		Doctor doctor = doctorRepository.findById(appointmentDto.getDoctorId())
+		Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDoctorId())
 				.orElseThrow(() -> new RuntimeException("Doctor Id not found"));
 		Appointment appointment = new Appointment();
 
-		appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
-		appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
+		appointment.setAppointmentDate(appointmentRequestDto.getAppointmentDate());
+		appointment.setAppointmentTime(appointmentRequestDto.getAppointmentTime());
 
 		appointment.setStatus(AppointmentStatus.Pending);
 
@@ -49,24 +50,40 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 		appointmentRepository.save(appointment);
 
-		return modelMapper.map(appointment, AppointmentDto.class);
+		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
+
+		responseDto.setPatientName(patient.getUser().getName());
+		responseDto.setDoctorName(doctor.getUser().getName());
+
+		return responseDto;
 	}
 
 	@Override
-	public AppointmentDto getAppointmentById(Integer id) {
+	public AppointmentResponseDto getAppointmentById(Integer id) {
 		Appointment appointment = appointmentRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Id not found"));
-		return modelMapper.map(appointment, AppointmentDto.class);
+
+		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
+
+		responseDto.setPatientName(appointment.getPatient().getUser().getName());
+		responseDto.setDoctorName(appointment.getDoctor().getUser().getName());
+
+		return responseDto;
 	}
 
 	@Override
-	public List<AppointmentDto> getAllAppointment() {
+	public List<AppointmentResponseDto> getAllAppointments() {
+		
 		List<Appointment> appointments = appointmentRepository.findAll();
-		List<AppointmentDto> allAppointments = appointments.stream()
-				.map((a) -> modelMapper.map(a, AppointmentDto.class)).toList();
-		return allAppointments;
+		
+		List<AppointmentResponseDto> listOfAppointments = appointments.stream().map((a) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
+			responseDto.setPatientName(a.getPatient().getUser().getName());
+			responseDto.setDoctorName(a.getDoctor().getUser().getName());
+			return responseDto;
+		}).toList();
+		
+		return listOfAppointments;
 	}
 
-	
-	
 }

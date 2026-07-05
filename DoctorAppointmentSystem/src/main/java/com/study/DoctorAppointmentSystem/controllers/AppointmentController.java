@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.AppointmentDto;
+import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
+import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -29,19 +31,20 @@ public class AppointmentController {
 //	------------------------------------
 
 	@PostMapping
-	public ResponseEntity<AppointmentDto> addAppointments(@Valid @RequestBody AppointmentDto appointmentDto) {
-		return new ResponseEntity<AppointmentDto>(appointmentService.addAppointment(appointmentDto),
+	public ResponseEntity<AppointmentResponseDto> addAppointments(
+			@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
+		return new ResponseEntity<AppointmentResponseDto>(appointmentService.addAppointment(appointmentRequestDto),
 				HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<AppointmentDto> getAppointmentById(@PathVariable Integer id) {
+	public ResponseEntity<AppointmentResponseDto> getAppointmentById(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.getAppointmentById(id));
 	}
 
 	@GetMapping
-	public ResponseEntity<List<AppointmentDto>> getAllAppointments() {
-		return ResponseEntity.ok(appointmentService.getAllAppointment());
+	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointments() {
+		return ResponseEntity.ok(appointmentService.getAllAppointments());
 	}
 
 }
