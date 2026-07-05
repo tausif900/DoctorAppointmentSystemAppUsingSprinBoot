@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.services.impl;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,4 +52,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return modelMapper.map(appointment, AppointmentDto.class);
 	}
 
+	@Override
+	public AppointmentDto getAppointmentById(Integer id) {
+		Appointment appointment = appointmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Id not found"));
+		return modelMapper.map(appointment, AppointmentDto.class);
+	}
+
+	@Override
+	public List<AppointmentDto> getAllAppointment() {
+		List<Appointment> appointments = appointmentRepository.findAll();
+		List<AppointmentDto> allAppointments = appointments.stream()
+				.map((a) -> modelMapper.map(a, AppointmentDto.class)).toList();
+		return allAppointments;
+	}
+
+	
+	
 }

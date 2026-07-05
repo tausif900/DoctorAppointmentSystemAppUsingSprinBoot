@@ -36,7 +36,6 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-
 	public List<DoctorDto> getAllDoctors() {
 		List<Doctor> doctor = doctorRepository.findAll();
 		return doctor.stream().map((d) -> modelMapper.map(d, DoctorDto.class)).toList();
