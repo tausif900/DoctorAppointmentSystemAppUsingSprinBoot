@@ -59,6 +59,7 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setSpecialization(doctorDto.getSpecialization());
 		doctor.setQualification(doctorDto.getQualification());
 		doctor.setExperience(doctorDto.getExperience());
+		doctor.setImageUrl(doctorDto.getImageUrl());
 
 		Doctor updatedDoctor = doctorRepository.save(doctor);
 		return modelMapper.map(updatedDoctor, DoctorDto.class);

@@ -21,4 +21,6 @@ public class DoctorDto {
 	
 	private Integer experience;
 	
+	private String imageUrl;
+	
 }

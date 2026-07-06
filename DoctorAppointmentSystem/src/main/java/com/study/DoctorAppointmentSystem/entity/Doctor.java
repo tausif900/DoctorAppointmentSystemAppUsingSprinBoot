@@ -33,4 +33,6 @@ public class Doctor {
 
 	@OneToOne
 	private User user;
+	
+	private String imageUrl;
 }
