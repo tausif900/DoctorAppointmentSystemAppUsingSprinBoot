@@ -46,4 +46,5 @@ public class AppointmentController {
 		return ResponseEntity.ok(appointmentService.getAllAppointments());
 	}
 
+	
 }
