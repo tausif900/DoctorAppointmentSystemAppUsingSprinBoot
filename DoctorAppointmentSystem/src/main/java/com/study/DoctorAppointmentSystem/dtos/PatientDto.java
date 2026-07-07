@@ -1,6 +1,5 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
-
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class PatientDto {
 
 	private Integer patientId;
+
+	private String patientName;
 
 	@NotNull
 	private String dateOfBirth;
