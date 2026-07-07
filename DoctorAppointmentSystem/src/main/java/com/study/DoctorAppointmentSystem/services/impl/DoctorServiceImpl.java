@@ -49,7 +49,9 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public DoctorDto getDoctorById(Integer id) {
 		Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
-		return modelMapper.map(doctor, DoctorDto.class);
+		DoctorDto responseDto = modelMapper.map(doctor, DoctorDto.class);
+		responseDto.setDoctorName(doctor.getUser().getName());
+		return responseDto;
 	}
 
 	@Override
