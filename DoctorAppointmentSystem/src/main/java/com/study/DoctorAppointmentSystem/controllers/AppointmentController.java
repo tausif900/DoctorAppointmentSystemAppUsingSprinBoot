@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,15 +37,32 @@ public class AppointmentController {
 				HttpStatus.CREATED);
 	}
 
+//	------------------------------------
+//	GET - localhost:8080/appointments/{id}
+//	------------------------------------
+
 	@GetMapping("/{id}")
 	public ResponseEntity<AppointmentResponseDto> getAppointmentById(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.getAppointmentById(id));
 	}
+
+//	------------------------------------
+//	GET - localhost:8080/appointments
+//	------------------------------------
 
 	@GetMapping
 	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointments() {
 		return ResponseEntity.ok(appointmentService.getAllAppointments());
 	}
 
-	
+//	------------------------------------
+//	PUT - localhost:8080/appointments/{id}
+//	------------------------------------
+
+	@PutMapping("/{id}")
+	public ResponseEntity<AppointmentResponseDto> updateAppointment(@PathVariable Integer id,
+			@RequestBody AppointmentRequestDto appointmentRequestDto) {
+		return ResponseEntity.ok(appointmentService.updateAppointment(id, appointmentRequestDto));
+	}
+
 }

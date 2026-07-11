@@ -5,14 +5,13 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 
 public interface AppointmentService {
-	
+
 	AppointmentResponseDto addAppointment(AppointmentRequestDto appointmentRequestDto);
 
 	AppointmentResponseDto getAppointmentById(Integer id);
 
 	List<AppointmentResponseDto> getAllAppointments();
-	
-	
-	
-	
+
+	AppointmentResponseDto updateAppointment(Integer id, AppointmentRequestDto appointmentRequestDto);
+
 }
