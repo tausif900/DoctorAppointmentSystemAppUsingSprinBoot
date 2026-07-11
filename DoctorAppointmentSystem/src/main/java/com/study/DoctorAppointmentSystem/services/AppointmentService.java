@@ -14,4 +14,9 @@ public interface AppointmentService {
 
 	AppointmentResponseDto updateAppointment(Integer id, AppointmentRequestDto appointmentRequestDto);
 
+	void deleteAppointment(Integer id);
+
+	List<AppointmentResponseDto> getAllAppointmentsOfPatientById(Integer id);
+
+	List<AppointmentResponseDto> getAllAppointmentsOfDoctorById(Integer id);
 }

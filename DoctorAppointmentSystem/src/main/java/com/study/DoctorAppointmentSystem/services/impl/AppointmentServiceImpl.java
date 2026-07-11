@@ -100,4 +100,33 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return responseDto;
 	}
 
+	@Override
+	public void deleteAppointment(Integer id) {
+		Appointment appointment = appointmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Id not found"));
+		appointmentRepository.delete(appointment);
+	}
+
+	@Override
+	public List<AppointmentResponseDto> getAllAppointmentsOfPatientById(Integer id) {
+		List<Appointment> appointments = appointmentRepository.findByPatientPatientId(id);
+		List<AppointmentResponseDto> listOfAllPatientAppointments = appointments.stream().map((a) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
+			responseDto.setDoctorName(a.getDoctor().getUser().getName());
+			return responseDto;
+		}).toList();
+		return listOfAllPatientAppointments;
+	}
+
+	@Override
+	public List<AppointmentResponseDto> getAllAppointmentsOfDoctorById(Integer id) {
+		List<Appointment> appointments = appointmentRepository.findByDoctorDocId(id);
+		List<AppointmentResponseDto> listOfAllDoctorAppointments = appointments.stream().map((a) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
+			responseDto.setPatientName(a.getPatient().getUser().getName());
+			return responseDto;
+		}).toList();
+		return listOfAllDoctorAppointments;
+	}
+
 }
