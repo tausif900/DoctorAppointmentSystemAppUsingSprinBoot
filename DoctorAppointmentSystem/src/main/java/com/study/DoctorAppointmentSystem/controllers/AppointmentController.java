@@ -79,13 +79,44 @@ public class AppointmentController {
 		return ResponseEntity.ok(response);
 	}
 
+//	------------------------------------
+//	GET - localhost:8080/appointments/patient/{id}
+//	------------------------------------
+
 	@GetMapping("/patient/{id}")
 	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointmentsOfPatientById(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.getAllAppointmentsOfPatientById(id));
 	}
 
+//	------------------------------------
+//	GET - localhost:8080/appointments/doctor/{id}
+//	------------------------------------
 	@GetMapping("/doctor/{id}")
 	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointmentsOfDoctorById(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.getAllAppointmentsOfDoctorById(id));
+	}
+
+//	------------------------------------
+//	PUT - localhost:8080/appoinments/accept/{id}
+//	------------------------------------	
+	@PutMapping("/accept/{id}")
+	public ResponseEntity<AppointmentResponseDto> acceptAppointment(@PathVariable Integer id) {
+		return ResponseEntity.ok(appointmentService.acceptAppointment(id));
+	}
+	
+//	------------------------------------
+//	PUT - localhost:8080/appoinments/reject/{id}
+//	------------------------------------	
+	@PutMapping("/reject/{id}")
+	public ResponseEntity<AppointmentResponseDto> rejectAppointment(@PathVariable Integer id) {
+		return ResponseEntity.ok(appointmentService.rejectAppointment(id));
+	}
+	
+//	------------------------------------
+//	PUT - localhost:8080/appoinments/cancel/{id}
+//	------------------------------------	
+	@PutMapping("/cancel/{id}")
+	public ResponseEntity<AppointmentResponseDto> cancelAppointment(@PathVariable Integer id) {
+		return ResponseEntity.ok(appointmentService.cancelAppointment(id));
 	}
 }

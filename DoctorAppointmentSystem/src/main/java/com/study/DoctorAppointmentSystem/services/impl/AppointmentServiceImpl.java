@@ -129,4 +129,40 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return listOfAllDoctorAppointments;
 	}
 
+	@Override
+	public AppointmentResponseDto acceptAppointment(Integer id) {
+		Appointment appointment = appointmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Appointment Id not found"));
+		appointment.setStatus(AppointmentStatus.Booked);
+		appointmentRepository.save(appointment);
+		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
+		responseDto.setPatientName(appointment.getPatient().getUser().getName());
+		responseDto.setDoctorName(appointment.getDoctor().getUser().getName());
+		return responseDto;
+	}
+
+	@Override
+	public AppointmentResponseDto rejectAppointment(Integer id) {
+		Appointment appointment = appointmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Appointment id not found"));
+		appointment.setStatus(AppointmentStatus.Rejected);
+		appointmentRepository.save(appointment);
+		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
+		responseDto.setPatientName(appointment.getPatient().getUser().getName());
+		responseDto.setDoctorName(appointment.getDoctor().getUser().getName());
+		return responseDto;
+	}
+
+	@Override
+	public AppointmentResponseDto cancelAppointment(Integer id) {
+		Appointment appointment = appointmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Appointment id not found"));
+		appointment.setStatus(AppointmentStatus.Cancelled);
+		appointmentRepository.save(appointment);
+		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
+		responseDto.setPatientName(appointment.getPatient().getUser().getName());
+		responseDto.setDoctorName(appointment.getDoctor().getUser().getName());
+		return responseDto;
+	}
+
 }

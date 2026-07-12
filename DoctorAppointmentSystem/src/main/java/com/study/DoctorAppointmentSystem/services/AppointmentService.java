@@ -19,4 +19,10 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> getAllAppointmentsOfPatientById(Integer id);
 
 	List<AppointmentResponseDto> getAllAppointmentsOfDoctorById(Integer id);
+
+	AppointmentResponseDto acceptAppointment(Integer id);
+	
+	AppointmentResponseDto rejectAppointment(Integer id);
+	
+	AppointmentResponseDto cancelAppointment(Integer id);
 }
