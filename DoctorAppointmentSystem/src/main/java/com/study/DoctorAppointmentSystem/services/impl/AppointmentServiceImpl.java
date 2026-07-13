@@ -36,7 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public AppointmentResponseDto addAppointment(AppointmentRequestDto appointmentRequestDto) {
 		Patient patient = patientRepository.findById(appointmentRequestDto.getPatientId())
 				.orElseThrow(() -> new RuntimeException("Patient Id not found"));
-		Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDoctorId())
+		Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDocId())
 				.orElseThrow(() -> new RuntimeException("Doctor Id not found"));
 		Appointment appointment = new Appointment();
 
@@ -113,6 +113,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		List<AppointmentResponseDto> listOfAllPatientAppointments = appointments.stream().map((a) -> {
 			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
 			responseDto.setDoctorName(a.getDoctor().getUser().getName());
+			responseDto.setSpecialization(a.getDoctor().getSpecialization());
 			return responseDto;
 		}).toList();
 		return listOfAllPatientAppointments;

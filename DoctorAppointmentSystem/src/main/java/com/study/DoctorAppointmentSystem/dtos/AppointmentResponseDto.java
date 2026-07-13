@@ -20,7 +20,9 @@ public class AppointmentResponseDto {
 
 	private String patientName;
 
-	private Integer doctorId;
+	private Integer docId;
+	
+	private String specialization;
 
 	private String doctorName;
 

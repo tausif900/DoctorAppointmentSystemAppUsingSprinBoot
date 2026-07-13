@@ -18,7 +18,7 @@ public class AppointmentRequestDto {
 	private Integer patientId;
 
 	@NotNull
-	private Integer doctorId;
+	private Integer docId;
 
 	@FutureOrPresent
 	private LocalDate appointmentDate;
