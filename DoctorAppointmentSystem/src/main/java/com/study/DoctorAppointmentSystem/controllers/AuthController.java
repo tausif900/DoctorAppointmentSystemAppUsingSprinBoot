@@ -10,6 +10,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.LoginRequest;
 import com.study.DoctorAppointmentSystem.dtos.LoginResponse;
@@ -17,6 +19,9 @@ import com.study.DoctorAppointmentSystem.dtos.UserDto;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.security.jwt.JwtUtils;
 
+
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
