@@ -38,37 +38,10 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> request
 
 						// Public APIs
-						.requestMatchers(HttpMethod.POST, "/users/register", "/auth/login").permitAll()
+						.requestMatchers(HttpMethod.POST, "/users/register",         "/auth/login").permitAll()
+						.requestMatchers(HttpMethod.GET, "/doctors/**").permitAll()
 
-						.requestMatchers(HttpMethod.GET, "/doctors", "/doctors/{id}", "/doctors/get-image/{id}")
-						.permitAll()
-
-						// Patient APIs
-						.requestMatchers("/patients/**").hasRole("PATIENT")
-
-						.requestMatchers(HttpMethod.POST, "/appointments").hasRole("PATIENT")
-
-						.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasRole("PATIENT")
-
-						.requestMatchers(HttpMethod.GET, "/appointments/patient/**").hasRole("PATIENT")
-
-						.requestMatchers(HttpMethod.PUT, "/appointments/cancel/**").hasRole("PATIENT")
-
-						// Doctor APIs
-						.requestMatchers("/doctors/**").hasRole("DOCTOR")
-
-						.requestMatchers(HttpMethod.GET, "/appointments/doctor/**").hasRole("DOCTOR")
-
-						.requestMatchers(HttpMethod.PUT, "/appointments/accept/**").hasRole("DOCTOR")
-
-						.requestMatchers(HttpMethod.PUT, "/appointments/reject/**").hasRole("DOCTOR")
-
-						.requestMatchers(HttpMethod.PUT, "/appointments/complete/**").hasRole("DOCTOR")
-
-						// Admin APIs
-						.requestMatchers("/users/**").hasRole("ADMIN")
-
-						.requestMatchers(HttpMethod.GET, "/appointments").hasRole("ADMIN")
+					
 
 						.anyRequest().authenticated());
 		;

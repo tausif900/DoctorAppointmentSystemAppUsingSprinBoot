@@ -1,5 +1,6 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
+import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.enums.Role;
 import com.study.DoctorAppointmentSystem.validators.PasswordMatch;
 
@@ -32,9 +33,13 @@ public class UserDto {
 	private String password;
 
 	private String confirmPassword;
+	
+	private String imageUrl;
 
 	@Size(min = 10, max = 10)
 	private String phNo;
 
 	private Role role;
+	
+	private Doctor doctor;
 }

@@ -50,6 +50,7 @@ public class AuthController {
 		String token = jwtUtils.generateTokenFromUsername(user);
 
 		UserDto dto = modelMapper.map(user, UserDto.class);
+		
 
 		LoginResponse response = new LoginResponse(token, dto);
 

@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +34,7 @@ public class Doctor {
 	private Integer consultationFee;
 
 	@OneToOne
+	@JsonIgnore
 	private User user;
 	
 	private String imageUrl;
