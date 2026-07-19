@@ -38,12 +38,11 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> request
 
 						// Public APIs
-						.requestMatchers(HttpMethod.POST, "/users/register",         "/auth/login").permitAll()
+						.requestMatchers(HttpMethod.POST, "/users/register", "/auth/login", "/doctors/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/doctors/**").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/doctors/**").permitAll()
 
-					
-
-						.anyRequest().authenticated());
+						.anyRequest().permitAll());
 		;
 
 		httpSecurity.httpBasic(Customizer.withDefaults());

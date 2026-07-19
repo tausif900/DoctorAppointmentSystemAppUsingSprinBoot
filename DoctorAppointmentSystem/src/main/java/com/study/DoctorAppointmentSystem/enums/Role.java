@@ -1,5 +1,5 @@
 package com.study.DoctorAppointmentSystem.enums;
 
 public enum Role {
-	Role_Doctor, Role_Patient
+	ROLE_Doctor, ROLE_Patient
 }
