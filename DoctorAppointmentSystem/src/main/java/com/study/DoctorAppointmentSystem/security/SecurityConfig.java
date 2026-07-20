@@ -37,10 +37,10 @@ public class SecurityConfig {
 		httpSecurity.csrf(csrf -> csrf.disable()).cors(Customizer.withDefaults())
 				.authorizeHttpRequests(request -> request
 
-						// Public APIs
+						
 						.requestMatchers(HttpMethod.POST, "/users/register", "/auth/login", "/doctors/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/doctors/**").permitAll()
-						.requestMatchers(HttpMethod.PUT, "/doctors/**").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/doctors/**").hasRole("Doctor")
 
 						.anyRequest().permitAll());
 		;
