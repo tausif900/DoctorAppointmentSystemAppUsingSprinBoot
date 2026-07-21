@@ -17,4 +17,7 @@ public interface DoctorSlotsRepository extends JpaRepository<DoctorSlots, Intege
 			LocalTime endTime);
 
 	List<DoctorSlots> findByDoctor(Doctor doctor);
+
+	boolean existsByDoctorAndSlotDateAndStartTimeAndEndTimeAndSlotIdNot(Doctor doctor, LocalDate slotDate,
+			LocalTime startTime, LocalTime endTime, Integer slotId);
 }

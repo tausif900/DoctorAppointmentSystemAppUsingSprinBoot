@@ -101,7 +101,7 @@ public class DoctorSlotsServiceImpl implements DoctorSlotsService {
 				.orElseThrow(() -> new RuntimeException("Slot not found"));
 
 		boolean equals = doctor.getDocId().equals(doctorSlots.getDoctor().getDocId());
-		
+
 		if (!equals) {
 			throw new RuntimeException("Access Denied");
 		}
@@ -111,6 +111,14 @@ public class DoctorSlotsServiceImpl implements DoctorSlotsService {
 
 		if (startTime.isAfter(endTime) || startTime.equals(endTime)) {
 			throw new RuntimeException("Invalid Time");
+		}
+
+		boolean duplicateSlotExist = doctorSlotsRepository.existsByDoctorAndSlotDateAndStartTimeAndEndTimeAndSlotIdNot(
+				doctor, doctorSlotRequestDto.getSlotDate(), doctorSlotRequestDto.getStartTime(),
+				doctorSlotRequestDto.getEndTime(), doctorSlots.getSlotId());
+
+		if (duplicateSlotExist) {
+			throw new RuntimeException("Cannot assign same time to two or more slots");
 		}
 
 		doctorSlots.setSlotDate(doctorSlotRequestDto.getSlotDate());
