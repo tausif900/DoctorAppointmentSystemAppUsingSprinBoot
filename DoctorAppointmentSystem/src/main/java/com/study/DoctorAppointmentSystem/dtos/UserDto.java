@@ -1,6 +1,7 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
 import com.study.DoctorAppointmentSystem.entity.Doctor;
+import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.enums.Role;
 import com.study.DoctorAppointmentSystem.validators.PasswordMatch;
 
@@ -42,4 +43,6 @@ public class UserDto {
 	private Role role;
 	
 	private Doctor doctor;
+	
+	private Patient patient;
 }

@@ -47,6 +47,9 @@ public class User implements UserDetails {
 	
 	@OneToOne(mappedBy = "user")
 	private Doctor doctor;
+	
+	@OneToOne(mappedBy = "user")
+	private Patient patient;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

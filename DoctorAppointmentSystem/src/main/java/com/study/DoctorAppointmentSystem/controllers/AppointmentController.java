@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
+import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -86,8 +88,9 @@ public class AppointmentController {
 //	------------------------------------
 
 	@GetMapping("/patient/{id}")
-	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointmentsOfPatientById(@PathVariable Integer id) {
-		return ResponseEntity.ok(appointmentService.getAllAppointmentsOfPatientById(id));
+	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointmentsOfPatientById(
+			@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(appointmentService.getAllAppointmentsOfPatientById(user.getPatient().getPatientId()));
 	}
 
 //	------------------------------------
@@ -105,7 +108,7 @@ public class AppointmentController {
 	public ResponseEntity<AppointmentResponseDto> acceptAppointment(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.acceptAppointment(id));
 	}
-	
+
 //	------------------------------------
 //	PUT - localhost:8080/appoinments/reject/{id}
 //	------------------------------------	
@@ -113,7 +116,7 @@ public class AppointmentController {
 	public ResponseEntity<AppointmentResponseDto> rejectAppointment(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.rejectAppointment(id));
 	}
-	
+
 //	------------------------------------
 //	PUT - localhost:8080/appoinments/cancel/{id}
 //	------------------------------------	

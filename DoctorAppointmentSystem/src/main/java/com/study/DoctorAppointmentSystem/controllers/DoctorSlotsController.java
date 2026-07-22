@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.DoctorSlotRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.DoctorSlotResponseDto;
+import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.DoctorSlotsService;
 
@@ -41,6 +42,11 @@ public class DoctorSlotsController {
 	@GetMapping("/my-slots")
 	public ResponseEntity<List<DoctorSlotResponseDto>> getAllSlots(@AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(doctorSlotsService.getAllSlots(user.getId()));
+	}
+
+	@GetMapping("/doctor/{doctorId}")
+	public ResponseEntity<List<DoctorSlotResponseDto>> getAvailableSlotsByDoctorId(@PathVariable Integer doctorId) {
+		return ResponseEntity.ok(doctorSlotsService.getAvailableSlotsByDoctorId(doctorId));
 	}
 
 	@DeleteMapping("/{id}")

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
+import com.study.DoctorAppointmentSystem.enums.SlotsStatus;
 
 public interface DoctorSlotsRepository extends JpaRepository<DoctorSlots, Integer> {
 
@@ -20,4 +21,6 @@ public interface DoctorSlotsRepository extends JpaRepository<DoctorSlots, Intege
 
 	boolean existsByDoctorAndSlotDateAndStartTimeAndEndTimeAndSlotIdNot(Doctor doctor, LocalDate slotDate,
 			LocalTime startTime, LocalTime endTime, Integer slotId);
+	
+	List<DoctorSlots> findByDoctorAndSlotStatus(Doctor doctor, SlotsStatus slotsStatus);
 }

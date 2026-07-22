@@ -13,6 +13,7 @@ import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.enums.SlotsStatus;
+import com.study.DoctorAppointmentSystem.repository.DoctorRepository;
 import com.study.DoctorAppointmentSystem.repository.DoctorSlotsRepository;
 import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.DoctorSlotsService;
@@ -22,6 +23,9 @@ public class DoctorSlotsServiceImpl implements DoctorSlotsService {
 
 	@Autowired
 	private DoctorSlotsRepository doctorSlotsRepository;
+
+	@Autowired
+	private DoctorRepository doctorRepository;
 
 	@Autowired
 	private UserRepositories userRepositories;
@@ -129,6 +133,20 @@ public class DoctorSlotsServiceImpl implements DoctorSlotsService {
 		DoctorSlotResponseDto responseDto = modelMapper.map(updatedSlot, DoctorSlotResponseDto.class);
 
 		return responseDto;
+	}
+
+	@Override
+	public List<DoctorSlotResponseDto> getAvailableSlotsByDoctorId(Integer doctorId) {
+		Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("doctor not found"));
+
+		List<DoctorSlots> doctorSlots = doctorSlotsRepository.findByDoctorAndSlotStatus(doctor, SlotsStatus.AVAILABLE);
+
+		List<DoctorSlotResponseDto> listOfSlotResponseDto = doctorSlots.stream().map((d) -> {
+			DoctorSlotResponseDto responseDto = modelMapper.map(d, DoctorSlotResponseDto.class);
+			return responseDto;
+		}).toList();
+
+		return listOfSlotResponseDto;
 	}
 
 }
