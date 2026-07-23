@@ -6,7 +6,7 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 
 public interface AppointmentService {
 
-	AppointmentResponseDto addAppointment(AppointmentRequestDto appointmentRequestDto);
+	AppointmentResponseDto addAppointment(Integer userId,AppointmentRequestDto appointmentRequestDto);
 
 	AppointmentResponseDto getAppointmentById(Integer id);
 

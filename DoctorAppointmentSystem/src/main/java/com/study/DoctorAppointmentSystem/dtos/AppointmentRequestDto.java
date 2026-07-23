@@ -14,12 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AppointmentRequestDto {
 
-	@NotNull
-	private Integer patientId;
-
-	@NotNull
-	private Integer docId;
-
 	@FutureOrPresent
 	private LocalDate appointmentDate;
 

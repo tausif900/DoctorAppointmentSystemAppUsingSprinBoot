@@ -38,10 +38,10 @@ public class AppointmentController {
 //	------------------------------------
 
 	@PostMapping
-	public ResponseEntity<AppointmentResponseDto> addAppointments(
+	public ResponseEntity<AppointmentResponseDto> addAppointments(@AuthenticationPrincipal User user,
 			@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
-		return new ResponseEntity<AppointmentResponseDto>(appointmentService.addAppointment(appointmentRequestDto),
-				HttpStatus.CREATED);
+		return new ResponseEntity<AppointmentResponseDto>(
+				appointmentService.addAppointment(user.getId(), appointmentRequestDto), HttpStatus.CREATED);
 	}
 
 //	------------------------------------

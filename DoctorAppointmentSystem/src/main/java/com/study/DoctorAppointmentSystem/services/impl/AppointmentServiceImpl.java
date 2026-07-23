@@ -11,14 +11,19 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.Patient;
+import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
 import com.study.DoctorAppointmentSystem.repository.AppointmentRepository;
 import com.study.DoctorAppointmentSystem.repository.DoctorRepository;
 import com.study.DoctorAppointmentSystem.repository.PatientRepository;
+import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
+
+	@Autowired
+	private UserRepositories userRepositories;
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
@@ -33,11 +38,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public AppointmentResponseDto addAppointment(AppointmentRequestDto appointmentRequestDto) {
-		Patient patient = patientRepository.findById(appointmentRequestDto.getPatientId())
-				.orElseThrow(() -> new RuntimeException("Patient Id not found"));
-		Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDocId())
-				.orElseThrow(() -> new RuntimeException("Doctor Id not found"));
+	public AppointmentResponseDto addAppointment(Integer userId, AppointmentRequestDto appointmentRequestDto) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+//		Patient patient = user.getPatient();
+
+//		Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDocId())
+//				.orElseThrow(() -> new RuntimeException("Doctor Id not found"));
 		Appointment appointment = new Appointment();
 
 		appointment.setAppointmentDate(appointmentRequestDto.getAppointmentDate());
@@ -45,15 +52,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 		appointment.setStatus(AppointmentStatus.Pending);
 
-		appointment.setDoctor(doctor);
-		appointment.setPatient(patient);
+//		appointment.setDoctor(doctor);
+//		appointment.setPatient(patient);
 
-		appointmentRepository.save(appointment);
+		Appointment savedAppointment = appointmentRepository.save(appointment);
 
-		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
+		AppointmentResponseDto responseDto = modelMapper.map(savedAppointment, AppointmentResponseDto.class);
 
-		responseDto.setPatientName(patient.getUser().getName());
-		responseDto.setDoctorName(doctor.getUser().getName());
+//		responseDto.setDoctorName(doctor.getUser().getName());
+//		responseDto.setPatientName(patient.getUser().getName());
 
 		return responseDto;
 	}
