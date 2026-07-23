@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +17,7 @@ public class PatientDto {
 	private String patientName;
 
 	@NotNull
-	private String dateOfBirth;
+	private LocalDate dateOfBirth;
 
 	@NotNull
 	private String gender;

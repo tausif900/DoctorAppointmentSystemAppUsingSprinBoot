@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.entity;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -25,7 +27,7 @@ public class Patient {
 	private Integer patientId;
 
 	@Column(nullable = false)
-	private String dateOfBirth;
+	private LocalDate dateOfBirth;
 
 	@Column(nullable = false)
 	private String gender;

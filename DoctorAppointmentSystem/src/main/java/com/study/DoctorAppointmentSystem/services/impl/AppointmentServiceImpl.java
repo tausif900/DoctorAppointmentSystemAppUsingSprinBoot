@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.study.DoctorAppointmentSystem.Utils.AgeUtil;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
@@ -79,7 +80,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		responseDto.setDocId(doctor.getDocId());
 		responseDto.setDoctorName(doctor.getUser().getName());
 		responseDto.setSpecialization(doctor.getSpecialization());
-		
+
 		return responseDto;
 	}
 
@@ -105,6 +106,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
 			responseDto.setPatientName(a.getPatient().getUser().getName());
 			responseDto.setDoctorName(a.getDoctor().getUser().getName());
+			responseDto.setDateOfBirth(a.getPatient().getDateOfBirth());
+			responseDto.setAge(AgeUtil.calculateAge(a.getPatient().getDateOfBirth()));
+			responseDto.setGender(a.getPatient().getGender());
+
 			return responseDto;
 		}).toList();
 

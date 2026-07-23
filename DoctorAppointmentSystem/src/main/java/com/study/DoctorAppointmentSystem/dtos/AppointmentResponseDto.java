@@ -21,7 +21,13 @@ public class AppointmentResponseDto {
 	private String patientName;
 
 	private Integer docId;
-	
+
+	private String gender;
+
+	private LocalDate dateOfBirth;
+
+	private int age;
+
 	private String specialization;
 
 	private String doctorName;
