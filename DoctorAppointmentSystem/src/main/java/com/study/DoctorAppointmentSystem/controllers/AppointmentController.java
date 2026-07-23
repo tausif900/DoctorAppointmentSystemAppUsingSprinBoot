@@ -23,8 +23,6 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/appointments")
 @CrossOrigin
@@ -34,14 +32,13 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 
 //	------------------------------------
-//	POST- localhost:8080/appointments
+//	POST- localhost:8080/appointments/book-appointment/{slotId}
 //	------------------------------------
-
-	@PostMapping
-	public ResponseEntity<AppointmentResponseDto> addAppointments(@AuthenticationPrincipal User user,
-			@Valid @RequestBody AppointmentRequestDto appointmentRequestDto) {
-		return new ResponseEntity<AppointmentResponseDto>(
-				appointmentService.addAppointment(user.getId(), appointmentRequestDto), HttpStatus.CREATED);
+	@PostMapping("/book-appointment/{slotId}")
+	public ResponseEntity<AppointmentResponseDto> bookAppointment(@AuthenticationPrincipal User user,
+			@PathVariable Integer slotId) {
+		return new ResponseEntity<AppointmentResponseDto>(appointmentService.bookAppointment(user.getId(), slotId),
+				HttpStatus.CREATED);
 	}
 
 //	------------------------------------

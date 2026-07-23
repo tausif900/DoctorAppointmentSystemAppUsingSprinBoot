@@ -10,11 +10,14 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
+import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
 import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
+import com.study.DoctorAppointmentSystem.enums.SlotsStatus;
 import com.study.DoctorAppointmentSystem.repository.AppointmentRepository;
 import com.study.DoctorAppointmentSystem.repository.DoctorRepository;
+import com.study.DoctorAppointmentSystem.repository.DoctorSlotsRepository;
 import com.study.DoctorAppointmentSystem.repository.PatientRepository;
 import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
@@ -29,6 +32,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private AppointmentRepository appointmentRepository;
 
 	@Autowired
+	private DoctorSlotsRepository doctorSlotsRepository;
+
+	@Autowired
 	private PatientRepository patientRepository;
 
 	@Autowired
@@ -38,30 +44,42 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public AppointmentResponseDto addAppointment(Integer userId, AppointmentRequestDto appointmentRequestDto) {
+	public AppointmentResponseDto bookAppointment(Integer userId, Integer slotId) {
+
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-//		Patient patient = user.getPatient();
+		DoctorSlots doctorSlots = doctorSlotsRepository.findById(slotId)
+				.orElseThrow(() -> new RuntimeException("Slot not found"));
 
-//		Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDocId())
-//				.orElseThrow(() -> new RuntimeException("Doctor Id not found"));
+		Doctor doctor = doctorSlots.getDoctor();
+		Patient patient = user.getPatient();
+
+		boolean slotAvailable = doctorSlots.getSlotStatus().equals(SlotsStatus.AVAILABLE);
+
+		if (!slotAvailable) {
+			throw new RuntimeException("Slot Already Booked");
+		}
+
 		Appointment appointment = new Appointment();
-
-		appointment.setAppointmentDate(appointmentRequestDto.getAppointmentDate());
-		appointment.setAppointmentTime(appointmentRequestDto.getAppointmentTime());
-
+		appointment.setAppointmentDate(doctorSlots.getSlotDate());
+		appointment.setAppointmentTime(doctorSlots.getStartTime());
+		appointment.setDoctor(doctor);
+		appointment.setPatient(patient);
+		appointment.setDoctorSlots(doctorSlots);
 		appointment.setStatus(AppointmentStatus.Pending);
 
-//		appointment.setDoctor(doctor);
-//		appointment.setPatient(patient);
+		Appointment saveAppointment = appointmentRepository.save(appointment);
 
-		Appointment savedAppointment = appointmentRepository.save(appointment);
+		doctorSlots.setSlotStatus(SlotsStatus.BOOKED);
+		doctorSlotsRepository.save(doctorSlots);
 
-		AppointmentResponseDto responseDto = modelMapper.map(savedAppointment, AppointmentResponseDto.class);
+		AppointmentResponseDto responseDto = modelMapper.map(saveAppointment, AppointmentResponseDto.class);
 
-//		responseDto.setDoctorName(doctor.getUser().getName());
-//		responseDto.setPatientName(patient.getUser().getName());
-
+		responseDto.setPatientName(patient.getUser().getName());
+		responseDto.setDocId(doctor.getDocId());
+		responseDto.setDoctorName(doctor.getUser().getName());
+		responseDto.setSpecialization(doctor.getSpecialization());
+		
 		return responseDto;
 	}
 

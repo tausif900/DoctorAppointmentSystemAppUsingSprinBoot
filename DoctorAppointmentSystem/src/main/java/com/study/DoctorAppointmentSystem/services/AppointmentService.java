@@ -6,7 +6,7 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 
 public interface AppointmentService {
 
-	AppointmentResponseDto addAppointment(Integer userId,AppointmentRequestDto appointmentRequestDto);
+	AppointmentResponseDto bookAppointment(Integer userId, Integer slotId);
 
 	AppointmentResponseDto getAppointmentById(Integer id);
 
@@ -21,8 +21,8 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> getAllAppointmentsOfDoctorById(Integer id);
 
 	AppointmentResponseDto acceptAppointment(Integer id);
-	
+
 	AppointmentResponseDto rejectAppointment(Integer id);
-	
+
 	AppointmentResponseDto cancelAppointment(Integer id);
 }
