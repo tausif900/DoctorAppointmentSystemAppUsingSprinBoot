@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
+import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
 
@@ -121,4 +122,13 @@ public class AppointmentController {
 	public ResponseEntity<AppointmentResponseDto> cancelAppointment(@PathVariable Integer id) {
 		return ResponseEntity.ok(appointmentService.cancelAppointment(id));
 	}
+
+//	------------------------------------
+//	PUT - localhost:8080/appoinments/status/pending
+//	------------------------------------	
+	@GetMapping("/status/pending")
+	public ResponseEntity<List<AppointmentResponseDto>> statusPending(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(appointmentService.statusPending(user.getId()));
+	}
+
 }

@@ -196,4 +196,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return responseDto;
 	}
 
+	@Override
+	public List<AppointmentResponseDto> statusPending(Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Doctor doctor = user.getDoctor();
+		List<Appointment> pendingStatus = appointmentRepository.findByDoctorAndStatus(doctor,
+				AppointmentStatus.Pending);
+		List<AppointmentResponseDto> listOfPendingStatus = pendingStatus.stream().map((ps) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(ps, AppointmentResponseDto.class);
+			responseDto.setPatientName(ps.getPatient().getUser().getName());
+			responseDto.setDoctorName(ps.getDoctor().getUser().getName());
+			responseDto.setDateOfBirth(ps.getPatient().getDateOfBirth());
+			responseDto.setAge(AgeUtil.calculateAge(ps.getPatient().getDateOfBirth()));
+			responseDto.setGender(ps.getPatient().getGender());
+			return responseDto;
+		}).toList();
+		return listOfPendingStatus;
+	}
+
 }
