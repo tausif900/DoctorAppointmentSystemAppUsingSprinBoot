@@ -28,4 +28,6 @@ public interface AppointmentService {
 	AppointmentResponseDto cancelAppointment(Integer id);
 
 	List<AppointmentResponseDto> statusPending(Integer id);
+
+	List<AppointmentResponseDto> todaySchedule(Integer id);
 }

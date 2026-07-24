@@ -1,5 +1,6 @@
 package com.study.DoctorAppointmentSystem.services.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -212,6 +213,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 			return responseDto;
 		}).toList();
 		return listOfPendingStatus;
+	}
+
+	@Override
+	public List<AppointmentResponseDto> todaySchedule(Integer id) {
+		User user = userRepositories.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		Doctor doctor = user.getDoctor();
+		LocalDate today = LocalDate.now();
+		List<Appointment> bookedStatus = appointmentRepository.findByDoctorAndAppointmentDateAndStatus(doctor, today,
+				AppointmentStatus.Booked);
+		List<AppointmentResponseDto> listOfTodaysSchedule = bookedStatus.stream().map((bs) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(bs, AppointmentResponseDto.class);
+			responseDto.setPatientName(bs.getPatient().getUser().getName());
+			responseDto.setDoctorName(bs.getDoctor().getUser().getName());
+			responseDto.setDateOfBirth(bs.getPatient().getDateOfBirth());
+			responseDto.setAge(AgeUtil.calculateAge(bs.getPatient().getDateOfBirth()));
+			responseDto.setGender(bs.getPatient().getGender());
+			return responseDto;
+		}).toList();
+		return listOfTodaysSchedule;
 	}
 
 }

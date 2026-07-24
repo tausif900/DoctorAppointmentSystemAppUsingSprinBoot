@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -124,11 +125,19 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	PUT - localhost:8080/appoinments/status/pending
+//	 GETlocalhost:8080/appoinments/status/pending
 //	------------------------------------	
 	@GetMapping("/status/pending")
 	public ResponseEntity<List<AppointmentResponseDto>> statusPending(@AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(appointmentService.statusPending(user.getId()));
+	}
+
+//	------------------------------------
+//	GET - localhost:8080/appoinments/today-schedule
+//	------------------------------------	
+	@GetMapping("/today-schedule")
+	public ResponseEntity<List<AppointmentResponseDto>> todaySchedule(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(appointmentService.todaySchedule(user.getId()));
 	}
 
 }
