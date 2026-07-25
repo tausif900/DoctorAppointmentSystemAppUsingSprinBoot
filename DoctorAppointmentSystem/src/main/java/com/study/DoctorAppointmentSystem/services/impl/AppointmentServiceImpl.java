@@ -23,6 +23,7 @@ import com.study.DoctorAppointmentSystem.repository.DoctorSlotsRepository;
 import com.study.DoctorAppointmentSystem.repository.PatientRepository;
 import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
+import com.study.DoctorAppointmentSystem.services.EmailService;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -41,6 +42,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private DoctorRepository doctorRepository;
+
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -163,10 +167,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public AppointmentResponseDto acceptAppointment(Integer id) {
+
 		Appointment appointment = appointmentRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Appointment Id not found"));
+
+		Patient patient = appointment.getPatient();
+		Doctor doctor = appointment.getDoctor();
+
 		appointment.setStatus(AppointmentStatus.Booked);
+
 		appointmentRepository.save(appointment);
+
+		emailService.sendAppointmentAcceptedEmail(patient.getUser().getEmail(), patient.getUser().getName(),
+				doctor.getUser().getName(), appointment.getAppointmentDate(), appointment.getAppointmentTime());
+
 		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
 		responseDto.setPatientName(appointment.getPatient().getUser().getName());
 		responseDto.setDoctorName(appointment.getDoctor().getUser().getName());
