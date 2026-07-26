@@ -30,4 +30,6 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> statusPending(Integer id);
 
 	List<AppointmentResponseDto> todaySchedule(Integer id);
+
+	AppointmentResponseDto completedAppointment(Integer userId, Integer appointmentId);
 }

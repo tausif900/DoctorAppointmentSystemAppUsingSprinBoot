@@ -140,4 +140,13 @@ public class AppointmentController {
 		return ResponseEntity.ok(appointmentService.todaySchedule(user.getId()));
 	}
 
+//	------------------------------------
+//	PUT - localhost:8080/appoinments/complete/{appointmentId}
+//	------------------------------------	
+	@PutMapping("/complete/{appointmentId}")
+	public ResponseEntity<AppointmentResponseDto> completedAppointment(@AuthenticationPrincipal User user,
+			@PathVariable Integer appointmentId) {
+		return ResponseEntity.ok(appointmentService.completedAppointment(user.getId(), appointmentId));
+	}
+
 }

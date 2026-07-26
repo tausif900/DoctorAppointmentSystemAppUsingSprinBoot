@@ -1,5 +1,6 @@
 package com.study.DoctorAppointmentSystem.services.impl;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -65,7 +66,11 @@ public class DoctorSlotsServiceImpl implements DoctorSlotsService {
 		User user = userRepositories.findById(id).orElseThrow(() -> new RuntimeException("User not Found"));
 
 		Doctor doctor = user.getDoctor();
-		List<DoctorSlots> listOfDoctorSlots = doctorSlotsRepository.findByDoctor(doctor);
+
+		LocalDate today = LocalDate.now();
+
+		List<DoctorSlots> listOfDoctorSlots = doctorSlotsRepository.findByDoctorAndSlotDateGreaterThanEqual(doctor,
+				today);
 
 		List<DoctorSlotResponseDto> list = listOfDoctorSlots.stream().map((d) -> {
 			DoctorSlotResponseDto responseDto = modelMapper.map(d, DoctorSlotResponseDto.class);

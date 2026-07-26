@@ -248,4 +248,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return listOfTodaysSchedule;
 	}
 
+	@Override
+	public AppointmentResponseDto completedAppointment(Integer userId, Integer appointmentId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
+		appointment.setStatus(AppointmentStatus.Completed);
+		Appointment savedAppointment = appointmentRepository.save(appointment);
+		AppointmentResponseDto responseDto = modelMapper.map(savedAppointment, AppointmentResponseDto.class);
+		return responseDto;
+	}
+
 }

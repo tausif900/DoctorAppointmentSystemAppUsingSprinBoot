@@ -17,10 +17,10 @@ public interface DoctorSlotsRepository extends JpaRepository<DoctorSlots, Intege
 	boolean existsByDoctorAndSlotDateAndStartTimeAndEndTime(Doctor doctor, LocalDate slotDate, LocalTime startTime,
 			LocalTime endTime);
 
-	List<DoctorSlots> findByDoctor(Doctor doctor);
+	List<DoctorSlots> findByDoctorAndSlotDateGreaterThanEqual(Doctor doctor, LocalDate slotDate);
 
 	boolean existsByDoctorAndSlotDateAndStartTimeAndEndTimeAndSlotIdNot(Doctor doctor, LocalDate slotDate,
 			LocalTime startTime, LocalTime endTime, Integer slotId);
-	
+
 	List<DoctorSlots> findByDoctorAndSlotStatus(Doctor doctor, SlotsStatus slotsStatus);
 }
