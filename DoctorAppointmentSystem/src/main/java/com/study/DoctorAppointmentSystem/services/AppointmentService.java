@@ -32,4 +32,6 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> todaySchedule(Integer id);
 
 	AppointmentResponseDto completedAppointment(Integer userId, Integer appointmentId);
+
+	List<AppointmentResponseDto> appointmentHistory(Integer userId);
 }

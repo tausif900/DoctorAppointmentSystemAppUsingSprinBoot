@@ -149,4 +149,12 @@ public class AppointmentController {
 		return ResponseEntity.ok(appointmentService.completedAppointment(user.getId(), appointmentId));
 	}
 
+//	------------------------------------
+//	GET - localhost:8080/appoinments/appointment-history
+//	------------------------------------	
+	@GetMapping("/appointment-history")
+	public ResponseEntity<List<AppointmentResponseDto>> appointmentHistory(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(appointmentService.appointmentHistory(user.getId()));
+	}
+
 }
