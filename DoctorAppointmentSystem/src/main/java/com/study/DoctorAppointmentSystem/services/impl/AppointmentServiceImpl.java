@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.study.DoctorAppointmentSystem.Utils.AgeUtil;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
+import com.study.DoctorAppointmentSystem.dtos.DashboardDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
@@ -274,6 +275,35 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}).toList();
 
 		return listOfAppointmentHistory;
+	}
+
+	@Override
+	public DashboardDto getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Doctor doctor = user.getDoctor();
+		LocalDate today = LocalDate.now();
+
+		long todayAppointments = appointmentRepository.countByDoctorAndAppointmentDateAndStatus(doctor, today,
+				AppointmentStatus.Booked);
+
+		long totalPatients = appointmentRepository.countDistinctPatientsByDoctor(doctor);
+
+		List<Appointment> completedVisits = appointmentRepository.findByDoctorAndStatus(doctor,
+				AppointmentStatus.Completed);
+		int totalCompletedVists = completedVisits.size();
+
+		long month = appointmentRepository.countByDoctorAndStatusAndAppointmentDateBetween(doctor,
+				AppointmentStatus.Completed, LocalDate.now().withDayOfMonth(1),
+				LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()));
+
+		DashboardDto dashboardDto = new DashboardDto();
+
+		dashboardDto.setTodayAppointments(todayAppointments);
+		dashboardDto.setTotalPatients(totalPatients);
+		dashboardDto.setCompletedVisits(totalCompletedVists);
+		dashboardDto.setMonthlyEarnings(month * doctor.getConsultationFee());
+
+		return dashboardDto;
 	}
 
 }

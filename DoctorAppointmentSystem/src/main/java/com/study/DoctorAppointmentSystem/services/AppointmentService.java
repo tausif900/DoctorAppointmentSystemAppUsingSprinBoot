@@ -3,6 +3,7 @@ package com.study.DoctorAppointmentSystem.services;
 import java.util.List;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
+import com.study.DoctorAppointmentSystem.dtos.DashboardDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 
 public interface AppointmentService {
@@ -34,4 +35,6 @@ public interface AppointmentService {
 	AppointmentResponseDto completedAppointment(Integer userId, Integer appointmentId);
 
 	List<AppointmentResponseDto> appointmentHistory(Integer userId);
+
+	DashboardDto getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(Integer userId);
 }

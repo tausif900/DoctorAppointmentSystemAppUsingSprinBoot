@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
+import com.study.DoctorAppointmentSystem.dtos.DashboardDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
@@ -155,6 +156,16 @@ public class AppointmentController {
 	@GetMapping("/appointment-history")
 	public ResponseEntity<List<AppointmentResponseDto>> appointmentHistory(@AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(appointmentService.appointmentHistory(user.getId()));
+	}
+
+//	------------------------------------
+//	GET - localhost:8080/appoinments/doctors/dashboard-cards
+//	------------------------------------	
+	@GetMapping("/doctors/dashboard-cards")
+	public ResponseEntity<DashboardDto> getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(
+			@AuthenticationPrincipal User user) {
+		return ResponseEntity
+				.ok(appointmentService.getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(user.getId()));
 	}
 
 }
