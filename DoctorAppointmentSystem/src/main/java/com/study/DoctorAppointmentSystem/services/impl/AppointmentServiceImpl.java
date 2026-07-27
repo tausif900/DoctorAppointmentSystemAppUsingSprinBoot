@@ -192,8 +192,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public AppointmentResponseDto rejectAppointment(Integer id) {
 		Appointment appointment = appointmentRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Appointment id not found"));
+		Patient patient = appointment.getPatient();
+		Doctor doctor = appointment.getDoctor();
 		appointment.setStatus(AppointmentStatus.Rejected);
 		appointmentRepository.save(appointment);
+		emailService.sendAppointmentRejectEmail(patient.getUser().getEmail(), patient.getUser().getName(),
+				doctor.getUser().getName(), appointment.getAppointmentDate(), appointment.getAppointmentTime());
 		AppointmentResponseDto responseDto = modelMapper.map(appointment, AppointmentResponseDto.class);
 		responseDto.setPatientName(appointment.getPatient().getUser().getName());
 		responseDto.setDoctorName(appointment.getDoctor().getUser().getName());
@@ -304,6 +308,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 		dashboardDto.setMonthlyEarnings(month * doctor.getConsultationFee());
 
 		return dashboardDto;
+	}
+
+	@Override
+	public List<AppointmentResponseDto> rejectedAppointments(Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Doctor doctor = user.getDoctor();
+		List<Appointment> rejectedAppointments = appointmentRepository.findByDoctorAndStatus(doctor,
+				AppointmentStatus.Rejected);
+		List<AppointmentResponseDto> listOfRejectedAppointments = rejectedAppointments.stream().map((r) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(r, AppointmentResponseDto.class);
+			responseDto.setPatientName(r.getPatient().getUser().getName());
+			responseDto.setAge(AgeUtil.calculateAge(r.getPatient().getDateOfBirth()));
+			responseDto.setGender(r.getPatient().getGender());
+			return responseDto;
+		}).toList();
+		return listOfRejectedAppointments;
 	}
 
 }

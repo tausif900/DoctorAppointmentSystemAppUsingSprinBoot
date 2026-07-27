@@ -37,4 +37,6 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> appointmentHistory(Integer userId);
 
 	DashboardDto getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(Integer userId);
+
+	List<AppointmentResponseDto> rejectedAppointments(Integer userId);
 }

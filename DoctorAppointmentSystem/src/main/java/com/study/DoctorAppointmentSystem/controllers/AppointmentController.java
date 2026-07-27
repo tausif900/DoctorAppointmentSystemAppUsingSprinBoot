@@ -168,4 +168,11 @@ public class AppointmentController {
 				.ok(appointmentService.getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(user.getId()));
 	}
 
+//	------------------------------------
+//	GET - localhost:8080/appoinments/rejected-appointments
+//	------------------------------------
+	@GetMapping("/rejected-appointments")
+	public ResponseEntity<List<AppointmentResponseDto>> rejectedAppointments(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(appointmentService.rejectedAppointments(user.getId()));
+	}
 }

@@ -7,5 +7,8 @@ public interface EmailService {
 
 	void sendAppointmentAcceptedEmail(String patientEmail, String patientName, String doctorName,
 			LocalDate appointmentDate, LocalTime appointmentTime);
+	
+	void sendAppointmentRejectEmail(String patientEmail, String patientName, String doctorName,
+			LocalDate appointmentDate, LocalTime appointmentTime);
 
 }
