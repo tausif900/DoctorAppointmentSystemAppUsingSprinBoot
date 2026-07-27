@@ -129,6 +129,10 @@ public class DoctorSlotsServiceImpl implements DoctorSlotsService {
 		if (duplicateSlotExist) {
 			throw new RuntimeException("Cannot assign same time to two or more slots");
 		}
+		
+		if (doctorSlots.getSlotStatus().equals(SlotsStatus.BOOKED)) {
+			throw new RuntimeException("Booked status can not update");
+		}
 
 		doctorSlots.setSlotDate(doctorSlotRequestDto.getSlotDate());
 		doctorSlots.setStartTime(doctorSlotRequestDto.getStartTime());
