@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
+import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
@@ -31,4 +32,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
 	long countByDoctorAndStatusAndAppointmentDateBetween(Doctor doctor, AppointmentStatus status, LocalDate startDate,
 			LocalDate endDate);
+
+	long countByPatient(Patient patient);
 }

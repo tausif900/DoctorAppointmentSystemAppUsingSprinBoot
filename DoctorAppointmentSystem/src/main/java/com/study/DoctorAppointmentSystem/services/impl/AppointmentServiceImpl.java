@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import com.study.DoctorAppointmentSystem.Utils.AgeUtil;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
-import com.study.DoctorAppointmentSystem.dtos.DashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.DoctorDashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.PatientDashboardDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
@@ -282,7 +283,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public DashboardDto getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(Integer userId) {
+	public DoctorDashboardDto getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(Integer userId) {
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 		Doctor doctor = user.getDoctor();
 		LocalDate today = LocalDate.now();
@@ -300,7 +301,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 				AppointmentStatus.Completed, LocalDate.now().withDayOfMonth(1),
 				LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()));
 
-		DashboardDto dashboardDto = new DashboardDto();
+		DoctorDashboardDto dashboardDto = new DoctorDashboardDto();
 
 		dashboardDto.setTodayAppointments(todayAppointments);
 		dashboardDto.setTotalPatients(totalPatients);
@@ -324,6 +325,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 			return responseDto;
 		}).toList();
 		return listOfRejectedAppointments;
+	}
+
+	@Override
+	public PatientDashboardDto getTotalAppointmentAndTotalConsultantAndReportsAndPrescriptions(Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Patient patient = user.getPatient();
+		long totalAppointments = appointmentRepository.countByPatient(patient);
+		PatientDashboardDto patientDashboardDto = new PatientDashboardDto();
+		patientDashboardDto.setTotalAppointments(totalAppointments);
+
+		return patientDashboardDto;
 	}
 
 }

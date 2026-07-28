@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DashboardDto {
+public class PatientDashboardDto {
+	private Long totalAppointments;
 
-	private Long todayAppointments;
+	private Long doctorsConsulted;
 
-	private Long totalPatients;
+	private Long medicalReports;
 
-	private int completedVisits;
-
-	private Long monthlyEarnings;
+	private Long prescriptions;
 }

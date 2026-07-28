@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.PatientDto;
+import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.PatientService;
 
 import lombok.Delegate;
@@ -43,7 +45,7 @@ public class PatientController {
 //	GET - localhost:8080/patient
 //	----------------------------------------------
 
-	@GetMapping()
+	@GetMapping("/all-patients")
 	public ResponseEntity<List<PatientDto>> getAllPatients() {
 		return ResponseEntity.ok(patientService.getAllPatients());
 	}
@@ -51,18 +53,18 @@ public class PatientController {
 //	----------------------------------------------
 //	GET - localhost:8080/patient/{id}
 //	----------------------------------------------
-	@GetMapping("/{id}")
-	public ResponseEntity<PatientDto> getPatientById(@PathVariable Integer id) {
-		return ResponseEntity.ok(patientService.getPatientById(id));
+	@GetMapping()
+	public ResponseEntity<PatientDto> getPatientById(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(patientService.getPatientById(user.getId()));
 	}
 
 //	----------------------------------------------
 //	PUT - localhost:8080/patient/{id}
 //	----------------------------------------------
 
-	@PutMapping("/{id}")
-	public ResponseEntity<PatientDto> updatePatient(@PathVariable Integer id, @RequestBody PatientDto patientDto) {
-		return ResponseEntity.ok(patientService.updatePatient(id, patientDto));
+	@PutMapping("/update-patient")
+	public ResponseEntity<PatientDto> updatePatient(@AuthenticationPrincipal User user, @RequestBody PatientDto patientDto) {
+		return ResponseEntity.ok(patientService.updatePatient(user.getId(), patientDto));
 	}
 //	----------------------------------------------
 //	DELETE - localhost:8080/patient/{id}

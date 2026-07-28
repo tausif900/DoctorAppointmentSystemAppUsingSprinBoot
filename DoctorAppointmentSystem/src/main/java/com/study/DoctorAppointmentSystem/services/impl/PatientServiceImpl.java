@@ -42,7 +42,8 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public PatientDto getPatientById(Integer id) {
-		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		User user = userRepositories.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		Patient patient = user.getPatient();
 		PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
 		patientDto.setPatientName(patient.getUser().getName());
 		return patientDto;
@@ -50,9 +51,15 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public PatientDto updatePatient(Integer id, PatientDto patientDto) {
-		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		User user = userRepositories.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+		Patient patient = user.getPatient();
 		patient.setDateOfBirth(patientDto.getDateOfBirth());
 		patient.setGender(patientDto.getGender());
+		patient.setBloodGroup(patientDto.getBloodGroup());
+		patient.setAddress(patientDto.getAddress());
+		patient.setCity(patientDto.getCity());
+		patient.setState(patientDto.getState());
+		patient.setPincode(patientDto.getPincode());
 		Patient updatedPatient = patientRepository.save(patient);
 		return modelMapper.map(updatedPatient, PatientDto.class);
 	}

@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
-import com.study.DoctorAppointmentSystem.dtos.DashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.DoctorDashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.PatientDashboardDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
@@ -102,7 +103,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	PUT - localhost:8080/appoinments/accept/{id}
+//	PUT - localhost:8080/appointments/accept/{id}
 //	------------------------------------	
 	@PutMapping("/accept/{id}")
 	public ResponseEntity<AppointmentResponseDto> acceptAppointment(@PathVariable Integer id) {
@@ -110,7 +111,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	PUT - localhost:8080/appoinments/reject/{id}
+//	PUT - localhost:8080/appointments/reject/{id}
 //	------------------------------------	
 	@PutMapping("/reject/{id}")
 	public ResponseEntity<AppointmentResponseDto> rejectAppointment(@PathVariable Integer id) {
@@ -118,7 +119,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	PUT - localhost:8080/appoinments/cancel/{id}
+//	PUT - localhost:8080/appointments/cancel/{id}
 //	------------------------------------	
 	@PutMapping("/cancel/{id}")
 	public ResponseEntity<AppointmentResponseDto> cancelAppointment(@PathVariable Integer id) {
@@ -126,7 +127,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	 GETlocalhost:8080/appoinments/status/pending
+//	 GETlocalhost:8080/appointments/status/pending
 //	------------------------------------	
 	@GetMapping("/status/pending")
 	public ResponseEntity<List<AppointmentResponseDto>> statusPending(@AuthenticationPrincipal User user) {
@@ -134,7 +135,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	GET - localhost:8080/appoinments/today-schedule
+//	GET - localhost:8080/appointments/today-schedule
 //	------------------------------------	
 	@GetMapping("/today-schedule")
 	public ResponseEntity<List<AppointmentResponseDto>> todaySchedule(@AuthenticationPrincipal User user) {
@@ -142,7 +143,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	PUT - localhost:8080/appoinments/complete/{appointmentId}
+//	PUT - localhost:8080/appointments/complete/{appointmentId}
 //	------------------------------------	
 	@PutMapping("/complete/{appointmentId}")
 	public ResponseEntity<AppointmentResponseDto> completedAppointment(@AuthenticationPrincipal User user,
@@ -151,7 +152,7 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	GET - localhost:8080/appoinments/appointment-history
+//	GET - localhost:8080/appointments/appointment-history
 //	------------------------------------	
 	@GetMapping("/appointment-history")
 	public ResponseEntity<List<AppointmentResponseDto>> appointmentHistory(@AuthenticationPrincipal User user) {
@@ -159,20 +160,31 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	GET - localhost:8080/appoinments/doctors/dashboard-cards
+//	GET - localhost:8080/appointments/doctors/dashboard-cards
 //	------------------------------------	
 	@GetMapping("/doctors/dashboard-cards")
-	public ResponseEntity<DashboardDto> getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(
+	public ResponseEntity<DoctorDashboardDto> getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(
 			@AuthenticationPrincipal User user) {
 		return ResponseEntity
 				.ok(appointmentService.getTodayAppointmentTotalPatientCompletedAppointmentMonthlyEarning(user.getId()));
 	}
 
 //	------------------------------------
-//	GET - localhost:8080/appoinments/rejected-appointments
+//	GET - localhost:8080/appointments/rejected-appointments
 //	------------------------------------
 	@GetMapping("/rejected-appointments")
 	public ResponseEntity<List<AppointmentResponseDto>> rejectedAppointments(@AuthenticationPrincipal User user) {
 		return ResponseEntity.ok(appointmentService.rejectedAppointments(user.getId()));
 	}
+
+//	------------------------------------
+//	GET - localhost:8080/appointments/patient/dashboard-cards
+//	------------------------------------
+	@GetMapping("/patient/dashboard-cards")
+	public ResponseEntity<PatientDashboardDto> getTotalAppointmentAndTotalConsultantAndReportsAndPrescriptions(
+			@AuthenticationPrincipal User user) {
+		return ResponseEntity
+				.ok(appointmentService.getTotalAppointmentAndTotalConsultantAndReportsAndPrescriptions(user.getId()));
+	}
+
 }
