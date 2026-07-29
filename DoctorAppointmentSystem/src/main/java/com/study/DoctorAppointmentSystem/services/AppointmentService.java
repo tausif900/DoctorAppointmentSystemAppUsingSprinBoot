@@ -42,4 +42,6 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> rejectedAppointments(Integer userId);
 
 	PatientDashboardDto getTotalAppointmentAndTotalConsultantAndReportsAndPrescriptions(Integer userId);
+	
+	List<AppointmentResponseDto> searchCompletedAppointments(String keyword, Integer userId);
 }

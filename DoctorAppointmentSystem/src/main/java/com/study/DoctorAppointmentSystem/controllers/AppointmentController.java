@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
@@ -185,6 +186,13 @@ public class AppointmentController {
 			@AuthenticationPrincipal User user) {
 		return ResponseEntity
 				.ok(appointmentService.getTotalAppointmentAndTotalConsultantAndReportsAndPrescriptions(user.getId()));
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<List<AppointmentResponseDto>> searchCompletedAppointments(@RequestParam String patientName,
+			@AuthenticationPrincipal User user) {
+
+		return ResponseEntity.ok(appointmentService.searchCompletedAppointments(patientName, user.getId()));
 	}
 
 }

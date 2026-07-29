@@ -34,4 +34,19 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 			LocalDate endDate);
 
 	long countByPatient(Patient patient);
+
+	@Query("""
+			SELECT COUNT(DISTINCT a.doctor)
+			FROM Appointment a
+			WHERE a.patient = :patient
+			AND a.status = :status
+			""")
+	long countDistinctDoctorsByPatientAndStatus(@Param("patient") Patient patient,
+			@Param("status") AppointmentStatus status);
+
+	List<Appointment> findByDoctorAndStatusAndPatientUserNameContainingIgnoreCase(Doctor doctor,
+			AppointmentStatus status, String name);
+
+	
+
 }

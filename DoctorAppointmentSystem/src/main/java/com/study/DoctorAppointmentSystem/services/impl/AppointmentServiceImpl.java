@@ -332,10 +332,29 @@ public class AppointmentServiceImpl implements AppointmentService {
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 		Patient patient = user.getPatient();
 		long totalAppointments = appointmentRepository.countByPatient(patient);
+		long totalConsultants = appointmentRepository.countDistinctDoctorsByPatientAndStatus(patient,
+				AppointmentStatus.Completed);
 		PatientDashboardDto patientDashboardDto = new PatientDashboardDto();
 		patientDashboardDto.setTotalAppointments(totalAppointments);
-
+		patientDashboardDto.setDoctorsConsulted(totalConsultants);
 		return patientDashboardDto;
+	}
+
+	@Override
+	public List<AppointmentResponseDto> searchCompletedAppointments(String patientName, Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Doctor doctor = user.getDoctor();
+		List<Appointment> searchPatients = appointmentRepository
+				.findByDoctorAndStatusAndPatientUserNameContainingIgnoreCase(doctor, AppointmentStatus.Completed,
+						patientName);
+		List<AppointmentResponseDto> listOfSearchedPatients = searchPatients.stream().map((s) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(s, AppointmentResponseDto.class);
+			responseDto.setPatientName(s.getPatient().getUser().getName());
+			responseDto.setAge(AgeUtil.calculateAge(s.getPatient().getDateOfBirth()));
+			responseDto.setGender(s.getPatient().getGender());
+			return responseDto;
+		}).toList();
+		return listOfSearchedPatients;
 	}
 
 }
