@@ -21,22 +21,22 @@ public class MedicalRecordController {
 	@Autowired
 	private MedicalRecordsService medicalRecordService;
 
-	@PostMapping("/{appointmentId}")
+	@PostMapping("/{patientId}")
 	public ResponseEntity<MedicalRecordsDto> saveMedicalReport(@RequestBody MedicalRecordsDto medicalRecordsDto,
-			@PathVariable Integer appointmentId, @AuthenticationPrincipal User user) {
-		return ResponseEntity
-				.ok(medicalRecordService.saveMedicalReport(medicalRecordsDto, appointmentId, user.getId()));
+			@PathVariable Integer patientId, @AuthenticationPrincipal User user) {
+
+		return ResponseEntity.ok(medicalRecordService.saveMedicalReport(medicalRecordsDto, patientId, user.getId()));
 	}
 
-	@GetMapping("/{appointmentId}")
-	public ResponseEntity<MedicalRecordsDto> getMedicalReportByAppointment(@PathVariable Integer appointmentId,
+	@GetMapping("/doctor/{patientId}")
+	public ResponseEntity<MedicalRecordsDto> getMedicalRecordForDoctor(@PathVariable Integer patientId,
 			@AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(medicalRecordService.getMedicalReportByAppointment(appointmentId, user.getId()));
+
+		return ResponseEntity.ok(medicalRecordService.getMedicalRecordForDoctor(patientId, user.getId()));
 	}
 
-	@GetMapping("/patient/{appointmentId}")
-	public ResponseEntity<MedicalRecordsDto> getMedicalReportForPatient(@PathVariable Integer appointmentId,
-			@AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(medicalRecordService.getMedicalReportForPatient(appointmentId, user.getId()));
+	@GetMapping("/patient")
+	public ResponseEntity<MedicalRecordsDto> getMedicalRecordForPatient(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(medicalRecordService.getMedicalRecordForPatient(user.getId()));
 	}
 }

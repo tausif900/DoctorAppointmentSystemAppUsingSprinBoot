@@ -5,11 +5,11 @@ import com.study.DoctorAppointmentSystem.dtos.MedicalRecordsDto;
 public interface MedicalRecordsService {
 
 //	to create/update the report.
-	MedicalRecordsDto saveMedicalReport(MedicalRecordsDto medicalReportDto, Integer appointmentId, Integer userId);
+	MedicalRecordsDto saveMedicalReport(MedicalRecordsDto medicalReportDto, Integer patientId, Integer userId);
 
 //	to display the report.
-	MedicalRecordsDto getMedicalReportByAppointment(Integer appointmentId, Integer userId);
+	MedicalRecordsDto getMedicalRecordForDoctor(Integer patientId,Integer userId);
 	
 //	Patient view their report
-	MedicalRecordsDto getMedicalReportForPatient(Integer appointmentId, Integer userId);
+	MedicalRecordsDto getMedicalRecordForPatient(Integer userId);
 }

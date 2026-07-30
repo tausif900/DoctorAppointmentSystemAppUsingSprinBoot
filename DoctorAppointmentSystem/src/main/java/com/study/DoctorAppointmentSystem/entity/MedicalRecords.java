@@ -42,6 +42,6 @@ public class MedicalRecords {
 	    private LocalDate createdDate;
 
 	    @OneToOne
-	    @JoinColumn(name = "appointment_id")
-	    private Appointment appointment;
+	    @JoinColumn(name = "patient_id")
+	    private Patient patient;
 }
