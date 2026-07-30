@@ -12,6 +12,7 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.dtos.DoctorDashboardDto;
 import com.study.DoctorAppointmentSystem.dtos.PatientDashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.PatientDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
@@ -157,14 +158,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<AppointmentResponseDto> getAllAppointmentsOfDoctorById(Integer id) {
-		List<Appointment> appointments = appointmentRepository.findByDoctorDocId(id);
-		List<AppointmentResponseDto> listOfAllDoctorAppointments = appointments.stream().map((a) -> {
-			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
-			responseDto.setPatientName(a.getPatient().getUser().getName());
+	public List<PatientDto> getAllAppointmentsOfDoctorById(Integer userId) {
+
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		Doctor doctor = user.getDoctor();
+
+		List<Appointment> appointments = appointmentRepository.findByDoctorAndStatus(doctor,
+				AppointmentStatus.Completed);
+		List<Patient> distinctPatients = appointments.stream().map((appointment) -> appointment.getPatient()).distinct()
+				.toList();
+		List<PatientDto> listOfPatientDto = distinctPatients.stream().map((p) -> {
+			PatientDto responseDto = modelMapper.map(p, PatientDto.class);
+			responseDto.setPatientName(p.getUser().getName());
+			responseDto.setAge(AgeUtil.calculateAge(p.getDateOfBirth()));
 			return responseDto;
 		}).toList();
-		return listOfAllDoctorAppointments;
+		return listOfPatientDto;
 	}
 
 	@Override

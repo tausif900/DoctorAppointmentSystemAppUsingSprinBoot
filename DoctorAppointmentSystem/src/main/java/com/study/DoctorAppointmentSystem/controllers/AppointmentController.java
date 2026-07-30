@@ -24,6 +24,7 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.dtos.DoctorDashboardDto;
 import com.study.DoctorAppointmentSystem.dtos.PatientDashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.PatientDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.services.AppointmentService;
@@ -96,11 +97,11 @@ public class AppointmentController {
 	}
 
 //	------------------------------------
-//	GET - localhost:8080/appointments/doctor/{id}
+//	GET - localhost:8080/appointments/doctor/distinct-patients
 //	------------------------------------
-	@GetMapping("/doctor/{id}")
-	public ResponseEntity<List<AppointmentResponseDto>> getAllAppointmentsOfDoctorById(@PathVariable Integer id) {
-		return ResponseEntity.ok(appointmentService.getAllAppointmentsOfDoctorById(id));
+	@GetMapping("/doctor/distinct-patients")
+	public ResponseEntity<List<PatientDto>> getAllAppointmentsOfDoctorById(@AuthenticationPrincipal User user) {
+		return ResponseEntity.ok(appointmentService.getAllAppointmentsOfDoctorById(user.getId()));
 	}
 
 //	------------------------------------

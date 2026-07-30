@@ -5,6 +5,7 @@ import com.study.DoctorAppointmentSystem.dtos.AppointmentRequestDto;
 import com.study.DoctorAppointmentSystem.dtos.AppointmentResponseDto;
 import com.study.DoctorAppointmentSystem.dtos.DoctorDashboardDto;
 import com.study.DoctorAppointmentSystem.dtos.PatientDashboardDto;
+import com.study.DoctorAppointmentSystem.dtos.PatientDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 
 public interface AppointmentService {
@@ -21,7 +22,7 @@ public interface AppointmentService {
 
 	List<AppointmentResponseDto> getAllAppointmentsOfPatientById(Integer id);
 
-	List<AppointmentResponseDto> getAllAppointmentsOfDoctorById(Integer id);
+	List<PatientDto> getAllAppointmentsOfDoctorById(Integer userId);
 
 	AppointmentResponseDto acceptAppointment(Integer id);
 

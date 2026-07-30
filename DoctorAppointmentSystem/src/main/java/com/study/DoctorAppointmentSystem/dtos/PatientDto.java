@@ -23,6 +23,8 @@ public class PatientDto {
 	private String gender;
 
 	private String bloodGroup;
+	
+	private Integer age;
 
 	@NotNull
 	private String address;

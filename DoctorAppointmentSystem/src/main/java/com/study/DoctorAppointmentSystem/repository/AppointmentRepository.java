@@ -47,6 +47,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	List<Appointment> findByDoctorAndStatusAndPatientUserNameContainingIgnoreCase(Doctor doctor,
 			AppointmentStatus status, String name);
 
-	
 
 }

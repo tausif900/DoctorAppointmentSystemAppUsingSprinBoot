@@ -15,9 +15,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,6 +31,8 @@ public class Patient {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+	
+	private Integer age;
 
 	@Column(nullable = false)
 	private String gender;
