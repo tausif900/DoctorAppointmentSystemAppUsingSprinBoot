@@ -38,8 +38,6 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-		
-
 		Patient patient = patientRepository.findById(patientId)
 				.orElseThrow(() -> new RuntimeException("Patient not found"));
 
