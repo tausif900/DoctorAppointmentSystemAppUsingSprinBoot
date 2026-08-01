@@ -2,6 +2,7 @@ package com.study.DoctorAppointmentSystem.services.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -364,6 +365,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 			return responseDto;
 		}).toList();
 		return listOfSearchedPatients;
+	}
+
+	@Override
+	public AppointmentResponseDto getNextAppointment(Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+		Patient patient = user.getPatient();
+
+		Optional<Appointment> appointment = appointmentRepository
+				.findFirstByPatientAndStatusOrderByAppointmentDateAscAppointmentTimeAsc(patient,
+						AppointmentStatus.Pending);
+
+		if (appointment.isEmpty()) {
+			return null;
+		}
+
+		AppointmentResponseDto responseDto = modelMapper.map(appointment.get(), AppointmentResponseDto.class);
+
+		return responseDto;
 	}
 
 }

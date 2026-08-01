@@ -12,7 +12,4 @@ public class PatientDashboardDto {
 
 	private Long doctorsConsulted;
 
-	private Long medicalReports;
-
-	private Long prescriptions;
 }

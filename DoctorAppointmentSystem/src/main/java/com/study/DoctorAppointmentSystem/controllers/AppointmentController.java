@@ -196,4 +196,13 @@ public class AppointmentController {
 		return ResponseEntity.ok(appointmentService.searchCompletedAppointments(patientName, user.getId()));
 	}
 
+	@GetMapping("/patient-next-appointment")
+	public ResponseEntity<AppointmentResponseDto> getNextAppointment(@AuthenticationPrincipal User user) {
+		AppointmentResponseDto responseDto = appointmentService.getNextAppointment(user.getId());
+		if (responseDto == null) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(responseDto);
+	}
+
 }
