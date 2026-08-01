@@ -35,11 +35,15 @@ public class MedicalRecords {
 
 	    @Lob
 	    private String dosage;
+	    
+	    private String medicalTest;
 
 	    @Lob
 	    private String advice;
 
 	    private LocalDate createdDate;
+	    
+	    private LocalDate updatedDate;
 
 	    @OneToOne
 	    @JoinColumn(name = "patient_id")

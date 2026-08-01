@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.study.DoctorAppointmentSystem.Utils.AgeUtil;
 import com.study.DoctorAppointmentSystem.dtos.PatientDto;
 import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.entity.User;
@@ -30,6 +31,7 @@ public class PatientServiceImpl implements PatientService {
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("user not exist"));
 		Patient patient = modelMapper.map(patientDto, Patient.class);
 		patient.setUser(user);
+		patient.setAge(AgeUtil.calculateAge(patient.getDateOfBirth()));
 		patientRepository.save(patient);
 		return modelMapper.map(patient, PatientDto.class);
 	}
@@ -42,10 +44,10 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public PatientDto getPatientById(Integer id) {
-		User user = userRepositories.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
-		Patient patient = user.getPatient();
+		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("patient not found"));
 		PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
 		patientDto.setPatientName(patient.getUser().getName());
+		patientDto.setAge(AgeUtil.calculateAge(patient.getDateOfBirth()));
 		return patientDto;
 	}
 

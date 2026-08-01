@@ -66,7 +66,9 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 		MedicalRecords medicalRecord = medicalRecordRepository.findByPatient(patient)
 				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
 
-		return modelMapper.map(medicalRecord, MedicalRecordsDto.class);
+		MedicalRecordsDto responseDto = modelMapper.map(medicalRecord, MedicalRecordsDto.class);
+		responseDto.setPatientName(patient.getUser().getName());
+		return responseDto;
 	}
 
 	@Override
@@ -80,6 +82,34 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
 
 		return modelMapper.map(medicalRecord, MedicalRecordsDto.class);
+	}
+
+	@Override
+	public boolean checkMedicalRecordExistsOfPatient(Integer id) {
+		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not Found"));
+		return medicalRecordRepository.existsByPatient(patient);
+	}
+
+	@Override
+	public MedicalRecordsDto updateMedicalRecord(Integer patientId, MedicalRecordsDto medicalRecordsDto) {
+		Patient patient = patientRepository.findById(patientId)
+				.orElseThrow(() -> new RuntimeException("record not found"));
+
+		MedicalRecords medicalRecord = medicalRecordRepository.findByPatient(patient)
+				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
+
+		medicalRecord.setDiagnosis(medicalRecordsDto.getDiagnosis());
+		medicalRecord.setSymptoms(medicalRecordsDto.getSymptoms());
+		medicalRecord.setMedicines(medicalRecordsDto.getMedicines());
+		medicalRecord.setDosage(medicalRecordsDto.getDosage());
+		medicalRecord.setMedicalTest(medicalRecordsDto.getMedicalTest());
+		medicalRecord.setAdvice(medicalRecordsDto.getAdvice());
+
+		medicalRecord.setUpdatedDate(LocalDate.now());
+
+		MedicalRecords updatedMedicalRecord = medicalRecordRepository.save(medicalRecord);
+
+		return modelMapper.map(updatedMedicalRecord, MedicalRecordsDto.class);
 	}
 
 }

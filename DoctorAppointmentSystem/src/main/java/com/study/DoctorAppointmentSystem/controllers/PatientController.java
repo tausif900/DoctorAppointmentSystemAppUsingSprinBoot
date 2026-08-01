@@ -53,9 +53,9 @@ public class PatientController {
 //	----------------------------------------------
 //	GET - localhost:8080/patient/{id}
 //	----------------------------------------------
-	@GetMapping()
-	public ResponseEntity<PatientDto> getPatientById(@AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(patientService.getPatientById(user.getId()));
+	@GetMapping("/{patientId}")
+	public ResponseEntity<PatientDto> getPatientBypatientId(@PathVariable Integer patientId ) {
+		return ResponseEntity.ok(patientService.getPatientById(patientId));
 	}
 
 //	----------------------------------------------

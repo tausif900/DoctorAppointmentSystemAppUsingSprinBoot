@@ -2,6 +2,7 @@ package com.study.DoctorAppointmentSystem.dtos;
 
 import java.time.LocalDate;
 
+import com.study.DoctorAppointmentSystem.entity.Patient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MedicalRecordsDto {
 	private Integer reportId;
+	
+	private String patientName; 
 
 	private String diagnosis;
 
@@ -24,6 +27,10 @@ public class MedicalRecordsDto {
 	private String advice;
 
 	private LocalDate createdDate;
+	
+	private LocalDate updatedDate;
+	
+	private String medicalTest;
 
-	private Integer appointmentId;
+	private Patient patient;
 }
