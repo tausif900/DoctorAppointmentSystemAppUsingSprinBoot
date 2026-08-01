@@ -11,6 +11,8 @@ public interface PatientService {
 
 	PatientDto getPatientById(Integer id);
 
+	PatientDto getPatientdetail(Integer userId);
+
 	PatientDto updatePatient(Integer id, PatientDto patientDto);
 
 	void deletePatient(Integer id);

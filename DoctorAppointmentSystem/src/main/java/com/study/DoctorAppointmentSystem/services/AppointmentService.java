@@ -47,4 +47,6 @@ public interface AppointmentService {
 	List<AppointmentResponseDto> searchCompletedAppointments(String keyword, Integer userId);
 
 	AppointmentResponseDto getNextAppointment(Integer userId);
+
+	AppointmentResponseDto getLastConsultationDate(Integer userId);
 }

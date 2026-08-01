@@ -205,4 +205,13 @@ public class AppointmentController {
 		return ResponseEntity.ok(responseDto);
 	}
 
+	@GetMapping("/last-consultation-date")
+	public ResponseEntity<AppointmentResponseDto> getLastConsultationDate(@AuthenticationPrincipal User user) {
+		AppointmentResponseDto responseDto = appointmentService.getLastConsultationDate(user.getId());
+		if (responseDto == null) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(responseDto);
+	}
+
 }

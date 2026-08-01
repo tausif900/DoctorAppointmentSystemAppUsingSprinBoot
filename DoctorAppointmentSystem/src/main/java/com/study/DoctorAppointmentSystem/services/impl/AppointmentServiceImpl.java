@@ -386,4 +386,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return responseDto;
 	}
 
+	@Override
+	public AppointmentResponseDto getLastConsultationDate(Integer userId) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+		Patient patient = user.getPatient();
+		Optional<Appointment> appointment = appointmentRepository
+				.findFirstByPatientAndStatusOrderByAppointmentDateDescAppointmentTimeDesc(patient,
+						AppointmentStatus.Completed);
+		if (appointment.isEmpty()) {
+			return null;
+		}
+		AppointmentResponseDto responseDto = modelMapper.map(appointment.get(), AppointmentResponseDto.class);
+		return responseDto;
+	}
+
 }

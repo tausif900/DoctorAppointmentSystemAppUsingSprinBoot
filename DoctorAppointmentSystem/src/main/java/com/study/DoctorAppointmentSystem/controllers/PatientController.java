@@ -57,6 +57,14 @@ public class PatientController {
 	public ResponseEntity<PatientDto> getPatientBypatientId(@PathVariable Integer patientId ) {
 		return ResponseEntity.ok(patientService.getPatientById(patientId));
 	}
+	
+//	----------------------------------------------
+//	GET - localhost:8080/patient
+//	----------------------------------------------
+	@GetMapping()
+	public ResponseEntity<PatientDto> getPatientDetail(@AuthenticationPrincipal User user ) {
+		return ResponseEntity.ok(patientService.getPatientdetail(user.getId()));
+	}
 
 //	----------------------------------------------
 //	PUT - localhost:8080/patient/{id}

@@ -51,4 +51,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	Optional<Appointment> findFirstByPatientAndStatusOrderByAppointmentDateAscAppointmentTimeAsc(Patient patient,
 			AppointmentStatus status);
 
+	Optional<Appointment> findFirstByPatientAndStatusOrderByAppointmentDateDescAppointmentTimeDesc(Patient patient,
+			AppointmentStatus status);
+
 }
