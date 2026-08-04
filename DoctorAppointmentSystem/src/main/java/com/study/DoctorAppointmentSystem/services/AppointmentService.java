@@ -49,4 +49,6 @@ public interface AppointmentService {
 	AppointmentResponseDto getNextAppointment(Integer userId);
 
 	AppointmentResponseDto getLastConsultationDate(Integer userId);
+
+	Long getCountOfPendingAppointments();
 }

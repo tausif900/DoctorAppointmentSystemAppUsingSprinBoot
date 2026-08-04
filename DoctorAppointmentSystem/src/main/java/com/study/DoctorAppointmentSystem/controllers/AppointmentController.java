@@ -214,4 +214,9 @@ public class AppointmentController {
 		return ResponseEntity.ok(responseDto);
 	}
 
+	@GetMapping("/count-of-pending-status")
+	public ResponseEntity<Long> getCountOfPendingStatus() {
+		return ResponseEntity.ok(appointmentService.getCountOfPendingAppointments());
+	}
+
 }

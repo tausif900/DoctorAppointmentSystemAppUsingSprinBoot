@@ -54,4 +54,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	Optional<Appointment> findFirstByPatientAndStatusOrderByAppointmentDateDescAppointmentTimeDesc(Patient patient,
 			AppointmentStatus status);
 
+	long countByStatus(AppointmentStatus status);
+
 }

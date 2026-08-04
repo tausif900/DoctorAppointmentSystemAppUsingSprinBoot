@@ -400,4 +400,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return responseDto;
 	}
 
+	@Override
+	public Long getCountOfPendingAppointments() {
+		long countOfPendingStatus = appointmentRepository.countByStatus(AppointmentStatus.Pending);
+		return countOfPendingStatus;
+	}
+
 }

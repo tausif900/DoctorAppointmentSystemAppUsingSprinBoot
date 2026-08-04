@@ -1,6 +1,7 @@
 package com.study.DoctorAppointmentSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.study.DoctorAppointmentSystem.enums.DoctorStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +40,8 @@ public class Doctor {
 	@OneToOne
 	@JsonIgnore
 	private User user;
-	
+
 	private String imageUrl;
+
+	private DoctorStatus status;
 }
