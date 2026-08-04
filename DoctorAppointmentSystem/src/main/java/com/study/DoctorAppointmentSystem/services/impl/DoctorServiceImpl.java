@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.study.DoctorAppointmentSystem.dtos.DoctorDto;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.User;
+import com.study.DoctorAppointmentSystem.enums.DoctorStatus;
 import com.study.DoctorAppointmentSystem.repository.DoctorRepository;
 import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.DoctorService;
@@ -31,6 +32,7 @@ public class DoctorServiceImpl implements DoctorService {
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
 		doctor.setUser(user);
+		doctor.setStatus(DoctorStatus.Pending);
 		Doctor savedDoctor = doctorRepository.save(doctor);
 		return modelMapper.map(savedDoctor, DoctorDto.class);
 	}
@@ -48,7 +50,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public DoctorDto getDoctorById(Integer id) {
-		Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+		Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("doctor not found"));
 		DoctorDto responseDto = modelMapper.map(doctor, DoctorDto.class);
 		responseDto.setDoctorName(doctor.getUser().getName());
 		return responseDto;
@@ -72,6 +74,17 @@ public class DoctorServiceImpl implements DoctorService {
 	public void deleteDoctor(Integer id) {
 		Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
 		doctorRepository.delete(doctor);
+	}
+
+	@Override
+	public List<DoctorDto> getDoctorOfPendingStatus() {
+		List<Doctor> doctors = doctorRepository.findByStatus(DoctorStatus.Pending);
+		List<DoctorDto> response = doctors.stream().map((d)->{
+			DoctorDto responseDto = modelMapper.map(d, DoctorDto.class);
+			responseDto.setDoctorName(d.getUser().getName());
+			return responseDto;
+		}).toList();
+		return response;
 	}
 
 }

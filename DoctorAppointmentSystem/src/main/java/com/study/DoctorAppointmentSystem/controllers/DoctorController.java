@@ -117,4 +117,9 @@ public class DoctorController {
 			e.printStackTrace();
 		}
 	}
+
+	@GetMapping("/pending-status-doctor")
+	public ResponseEntity<List<DoctorDto>> getPendingStatusDoctor() {
+		return ResponseEntity.ok(doctorService.getDoctorOfPendingStatus());
+	}
 }

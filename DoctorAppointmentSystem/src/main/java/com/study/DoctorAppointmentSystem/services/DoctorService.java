@@ -3,6 +3,7 @@ package com.study.DoctorAppointmentSystem.services;
 import java.util.List;
 
 import com.study.DoctorAppointmentSystem.dtos.DoctorDto;
+import com.study.DoctorAppointmentSystem.entity.Doctor;
 
 public interface DoctorService {
 
@@ -15,4 +16,6 @@ public interface DoctorService {
 	DoctorDto updateDoctor(Integer id, DoctorDto doctorDto);
 
 	void deleteDoctor(Integer id);
+
+	List<DoctorDto> getDoctorOfPendingStatus();
 }
