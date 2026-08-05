@@ -24,37 +24,38 @@ public class MedicalRecordController {
 	@Autowired
 	private MedicalRecordsService medicalRecordService;
 
-	@PostMapping("/{patientId}")
+	@PostMapping("/add-record/{appointmentId}")
 	public ResponseEntity<MedicalRecordsDto> saveMedicalReport(@RequestBody MedicalRecordsDto medicalRecordsDto,
-			@PathVariable Integer patientId, @AuthenticationPrincipal User user) {
+			@PathVariable Integer appointmentId, @AuthenticationPrincipal User user) {
 
-		return ResponseEntity.ok(medicalRecordService.saveMedicalReport(medicalRecordsDto, patientId, user.getId()));
+		return ResponseEntity
+				.ok(medicalRecordService.saveMedicalReport(medicalRecordsDto, appointmentId, user.getId()));
 	}
 
-	@GetMapping("/doctor/patient-record/{patientId}")
-	public ResponseEntity<MedicalRecordsDto> getMedicalRecordForDoctor(@PathVariable Integer patientId,
+	@GetMapping("/doctor/patient-record/{appointmentId}")
+	public ResponseEntity<MedicalRecordsDto> getMedicalRecordForDoctor(@PathVariable Integer appointmentId,
 			@AuthenticationPrincipal User user) {
 
-		return ResponseEntity.ok(medicalRecordService.getMedicalRecordForDoctor(patientId, user.getId()));
+		return ResponseEntity.ok(medicalRecordService.getMedicalRecordForDoctor(appointmentId, user.getId()));
 	}
 
-	@GetMapping("/patient")
-	public ResponseEntity<MedicalRecordsDto> getMedicalRecordForPatient(@AuthenticationPrincipal User user) {
-		return ResponseEntity.ok(medicalRecordService.getMedicalRecordForPatient(user.getId()));
+	@GetMapping("/patient/{appointmentId}")
+	public ResponseEntity<MedicalRecordsDto> getMedicalRecordForPatient(@AuthenticationPrincipal User user,
+			@PathVariable Integer appointmentId) {
+		return ResponseEntity.ok(medicalRecordService.getMedicalRecordForPatient(user.getId(), appointmentId));
 	}
 
-	@GetMapping("/exists/{patientId}")
-	public ResponseEntity<Boolean> checkMedicalRecordExistsOfPatient(@PathVariable Integer patientId) {
-		return ResponseEntity.ok(medicalRecordService.checkMedicalRecordExistsOfPatient(patientId));
+	@GetMapping("/exists/{appointmentId}")
+	public ResponseEntity<Boolean> checkMedicalRecordExistsOfPatient(@PathVariable Integer appointmentId) {
+		return ResponseEntity.ok(medicalRecordService.checkMedicalRecordExistsOfPatient(appointmentId));
 	}
-	
-	@PutMapping("/update-record/{patientId}")
-	public ResponseEntity<MedicalRecordsDto> updateMedicalRecord(
-	        @RequestBody MedicalRecordsDto medicalRecordsDto,
-	        @PathVariable Integer patientId) {
 
-	    return ResponseEntity.ok(
-	            medicalRecordService.updateMedicalRecord(patientId, medicalRecordsDto));
+	@PutMapping("/update-record/{appointmentId}")
+	public ResponseEntity<MedicalRecordsDto> updateMedicalRecord(@AuthenticationPrincipal User user,
+			@RequestBody MedicalRecordsDto medicalRecordsDto, @PathVariable Integer appointmentId) {
+
+		return ResponseEntity
+				.ok(medicalRecordService.updateMedicalRecord(user.getId(), appointmentId, medicalRecordsDto));
 	}
-	
+
 }

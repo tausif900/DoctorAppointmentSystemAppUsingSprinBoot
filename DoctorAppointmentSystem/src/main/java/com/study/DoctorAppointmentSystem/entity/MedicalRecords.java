@@ -13,39 +13,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class MedicalRecords {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Integer reportId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer reportId;
 
-	    @Lob
-	    private String diagnosis;
+	@Lob
+	private String diagnosis;
 
-	    @Lob
-	    private String symptoms;
+	@Lob
+	private String symptoms;
 
-	    @Lob
-	    private String medicines;
+	@Lob
+	private String medicines;
 
-	    @Lob
-	    private String dosage;
-	    
-	    private String medicalTest;
+	@Lob
+	private String dosage;
 
-	    @Lob
-	    private String advice;
+	private String medicalTest;
 
-	    private LocalDate createdDate;
-	    
-	    private LocalDate updatedDate;
+	@Lob
+	private String advice;
 
-	    @OneToOne
-	    @JoinColumn(name = "patient_id")
-	    private Patient patient;
+	private LocalDate createdDate;
+
+	private LocalDate updatedDate;
+
+	@OneToOne
+	@JoinColumn(name = "appointment_id")
+	private Appointment appointment;
+
 }

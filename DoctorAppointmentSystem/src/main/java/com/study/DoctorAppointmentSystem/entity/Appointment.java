@@ -45,4 +45,7 @@ public class Appointment {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private AppointmentStatus status;
+
+	@OneToOne(mappedBy = "appointment")
+	private MedicalRecords medicalRecord;
 }

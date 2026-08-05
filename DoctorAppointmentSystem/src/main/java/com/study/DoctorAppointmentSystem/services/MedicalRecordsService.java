@@ -5,15 +5,15 @@ import com.study.DoctorAppointmentSystem.dtos.MedicalRecordsDto;
 public interface MedicalRecordsService {
 
 //	to create/update the report.
-	MedicalRecordsDto saveMedicalReport(MedicalRecordsDto medicalReportDto, Integer patientId, Integer userId);
+	MedicalRecordsDto saveMedicalReport(MedicalRecordsDto medicalReportDto, Integer appointmentId, Integer userId);
 
 //	to display the report.
-	MedicalRecordsDto getMedicalRecordForDoctor(Integer patientId, Integer userId);
+	MedicalRecordsDto getMedicalRecordForDoctor(Integer appointmentId, Integer userId);
 
 //	Patient view their report
-	MedicalRecordsDto getMedicalRecordForPatient(Integer userId);
+	MedicalRecordsDto getMedicalRecordForPatient(Integer userId, Integer appointmentId);
 
-	boolean checkMedicalRecordExistsOfPatient(Integer id);
-	
-	MedicalRecordsDto updateMedicalRecord(Integer patientId, MedicalRecordsDto medicalRecordsDto);
+	boolean checkMedicalRecordExistsOfPatient(Integer appointmentId);
+
+	MedicalRecordsDto updateMedicalRecord(Integer userId, Integer appointmentId, MedicalRecordsDto medicalRecordsDto);
 }

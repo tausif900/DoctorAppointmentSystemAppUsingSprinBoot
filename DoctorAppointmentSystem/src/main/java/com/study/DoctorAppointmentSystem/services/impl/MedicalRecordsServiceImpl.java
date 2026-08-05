@@ -1,6 +1,7 @@
 package com.study.DoctorAppointmentSystem.services.impl;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 	private MedicalRecordsRepository medicalRecordRepository;
 
 	@Autowired
-	private PatientRepository patientRepository;
+	private AppointmentRepository appointmentRepository;
 
 	@Autowired
 	private UserRepositories userRepositories;
@@ -34,68 +35,99 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public MedicalRecordsDto saveMedicalReport(MedicalRecordsDto medicalRecordsDto, Integer patientId, Integer userId) {
+	public MedicalRecordsDto saveMedicalReport(MedicalRecordsDto medicalRecordsDto, Integer appointmentId,
+			Integer userId) {
 
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-		Patient patient = patientRepository.findById(patientId)
-				.orElseThrow(() -> new RuntimeException("Patient not found"));
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-		if (medicalRecordRepository.findByPatient(patient).isPresent()) {
-			throw new RuntimeException("Medical Record Already Exists");
+		if (!appointment.getDoctor().getUser().getId().equals(user.getId())) {
+			throw new RuntimeException("You are not authorized to add medical record.");
 		}
 
-		MedicalRecords medicalRecords = modelMapper.map(medicalRecordsDto, MedicalRecords.class);
+		Optional<MedicalRecords> medicalRecord = medicalRecordRepository.findByAppointment(appointment);
 
-		medicalRecords.setPatient(patient);
-		medicalRecords.setCreatedDate(LocalDate.now());
+		if (medicalRecord.isEmpty()) {
+			MedicalRecords medical = new MedicalRecords();
 
-		MedicalRecords savedRecord = medicalRecordRepository.save(medicalRecords);
+			medical.setAppointment(appointment);
+			medical.setDiagnosis(medicalRecordsDto.getDiagnosis());
+			medical.setSymptoms(medicalRecordsDto.getSymptoms());
+			medical.setMedicines(medicalRecordsDto.getMedicines());
+			medical.setDosage(medicalRecordsDto.getDosage());
+			medical.setMedicalTest(medicalRecordsDto.getMedicalTest());
+			medical.setAdvice(medicalRecordsDto.getAdvice());
+			medical.setCreatedDate(LocalDate.now());
 
-		return modelMapper.map(savedRecord, MedicalRecordsDto.class);
+			medicalRecordRepository.save(medical);
+
+			return modelMapper.map(medical, MedicalRecordsDto.class);
+		} else {
+			return modelMapper.map(medicalRecord.get(), MedicalRecordsDto.class);
+		}
+
 	}
 
 	@Override
-	public MedicalRecordsDto getMedicalRecordForDoctor(Integer patientId, Integer userId) {
+	public MedicalRecordsDto getMedicalRecordForDoctor(Integer appointmentId, Integer userId) {
 
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-		Patient patient = patientRepository.findById(patientId)
-				.orElseThrow(() -> new RuntimeException("Patient not found"));
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-		MedicalRecords medicalRecord = medicalRecordRepository.findByPatient(patient)
+		if (!appointment.getDoctor().getUser().getId().equals(user.getId())) {
+			throw new RuntimeException("You are not authorized to view this medical record.");
+		}
+
+		MedicalRecords medicalRecord = medicalRecordRepository.findByAppointment(appointment)
 				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
 
 		MedicalRecordsDto responseDto = modelMapper.map(medicalRecord, MedicalRecordsDto.class);
-		responseDto.setPatientName(patient.getUser().getName());
+		responseDto.setPatientName(appointment.getPatient().getUser().getName());
 		return responseDto;
 	}
 
 	@Override
-	public MedicalRecordsDto getMedicalRecordForPatient(Integer userId) {
+	public MedicalRecordsDto getMedicalRecordForPatient(Integer userId, Integer appointmentId) {
 
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-		Patient patient = user.getPatient();
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-		MedicalRecords medicalRecord = medicalRecordRepository.findByPatient(patient)
+		if (!appointment.getPatient().getUser().getId().equals(user.getId())) {
+			throw new RuntimeException("You are not authorized to view this medical record.");
+		}
+
+		MedicalRecords medicalRecord = medicalRecordRepository.findByAppointment(appointment)
 				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
 
 		return modelMapper.map(medicalRecord, MedicalRecordsDto.class);
 	}
 
 	@Override
-	public boolean checkMedicalRecordExistsOfPatient(Integer id) {
-		Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient not Found"));
-		return medicalRecordRepository.existsByPatient(patient);
+	public boolean checkMedicalRecordExistsOfPatient(Integer appointmentId) {
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
+		return medicalRecordRepository.existsByAppointment(appointment);
 	}
 
 	@Override
-	public MedicalRecordsDto updateMedicalRecord(Integer patientId, MedicalRecordsDto medicalRecordsDto) {
-		Patient patient = patientRepository.findById(patientId)
-				.orElseThrow(() -> new RuntimeException("record not found"));
+	public MedicalRecordsDto updateMedicalRecord(Integer userId, Integer appointmentId,
+			MedicalRecordsDto medicalRecordsDto) {
+		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-		MedicalRecords medicalRecord = medicalRecordRepository.findByPatient(patient)
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+		if (!appointment.getDoctor().getUser().getId().equals(user.getId())) {
+			throw new RuntimeException("Unauthorized");
+		}
+
+		MedicalRecords medicalRecord = medicalRecordRepository.findByAppointment(appointment)
 				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
 
 		medicalRecord.setDiagnosis(medicalRecordsDto.getDiagnosis());

@@ -9,9 +9,9 @@ import com.study.DoctorAppointmentSystem.entity.MedicalRecords;
 import com.study.DoctorAppointmentSystem.entity.Patient;
 
 public interface MedicalRecordsRepository extends JpaRepository<MedicalRecords, Integer> {
+	
+	Optional<MedicalRecords> findByAppointment(Appointment appointment);
 
-	Optional<MedicalRecords> findByPatient(Patient patient);
-
-	boolean existsByPatient(Patient patient);
+	boolean existsByAppointment(Appointment appointment);
 
 }
