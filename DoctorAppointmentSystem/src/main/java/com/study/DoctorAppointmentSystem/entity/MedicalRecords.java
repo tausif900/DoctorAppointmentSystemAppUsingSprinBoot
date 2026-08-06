@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,7 +46,10 @@ public class MedicalRecords {
 	private LocalDate updatedDate;
 
 	@OneToOne
-	@JoinColumn(name = "appointment_id")
 	private Appointment appointment;
+	
+	@ManyToOne
+	@JoinColumn(name = "patient_id")
+	private Patient patient;
 
 }

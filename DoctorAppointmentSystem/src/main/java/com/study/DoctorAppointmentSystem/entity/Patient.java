@@ -31,7 +31,7 @@ public class Patient {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
-	
+
 	private Integer age;
 
 	@Column(nullable = false)
@@ -47,6 +47,7 @@ public class Patient {
 	private String state;
 
 	private long pincode;
+
 
 	@OneToOne
 	@JsonIgnore

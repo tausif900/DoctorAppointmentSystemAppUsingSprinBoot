@@ -1,6 +1,7 @@
 package com.study.DoctorAppointmentSystem.services.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -32,6 +33,9 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 	private UserRepositories userRepositories;
 
 	@Autowired
+	private PatientRepository patienRepository;
+
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
@@ -39,7 +43,7 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 			Integer userId) {
 
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
+		
 		Appointment appointment = appointmentRepository.findById(appointmentId)
 				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
@@ -60,6 +64,7 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 			medical.setMedicalTest(medicalRecordsDto.getMedicalTest());
 			medical.setAdvice(medicalRecordsDto.getAdvice());
 			medical.setCreatedDate(LocalDate.now());
+			medical.setPatient(appointment.getPatient());
 
 			medicalRecordRepository.save(medical);
 
@@ -142,6 +147,21 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 		MedicalRecords updatedMedicalRecord = medicalRecordRepository.save(medicalRecord);
 
 		return modelMapper.map(updatedMedicalRecord, MedicalRecordsDto.class);
+	}
+
+	@Override
+	public List<MedicalRecordsDto> getAllMedicalRecordsOfPatient(Integer patientId) {
+		Patient patient = patienRepository.findById(patientId)
+				.orElseThrow(() -> new RuntimeException("Patientnot found"));
+		List<MedicalRecords> listOfMedicalRecords = medicalRecordRepository.findByPatient(patient);
+		List<MedicalRecordsDto> records = listOfMedicalRecords.stream().map((r) -> {
+			MedicalRecordsDto recordsDto = modelMapper.map(r, MedicalRecordsDto.class);
+			recordsDto.setAppointmentId(r.getAppointment().getId());
+			recordsDto.setPatientName(r.getPatient().getUser().getName());
+			recordsDto.setPatientId(r.getPatient().getPatientId());
+			return recordsDto;
+		}).toList();
+		return records;
 	}
 
 }

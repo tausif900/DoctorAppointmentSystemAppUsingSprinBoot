@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -56,6 +58,11 @@ public class MedicalRecordController {
 
 		return ResponseEntity
 				.ok(medicalRecordService.updateMedicalRecord(user.getId(), appointmentId, medicalRecordsDto));
+	}
+
+	@GetMapping("/all-records/{patientId}")
+	public ResponseEntity<List<MedicalRecordsDto>> getAllMedicalRecordsOfPatient(@PathVariable Integer patientId) {
+		return ResponseEntity.ok(medicalRecordService.getAllMedicalRecordsOfPatient(patientId));
 	}
 
 }

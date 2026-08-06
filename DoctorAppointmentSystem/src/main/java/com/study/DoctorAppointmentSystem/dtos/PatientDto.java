@@ -2,6 +2,8 @@ package com.study.DoctorAppointmentSystem.dtos;
 
 import java.time.LocalDate;
 
+import com.study.DoctorAppointmentSystem.entity.Appointment;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +25,7 @@ public class PatientDto {
 	private String gender;
 
 	private String bloodGroup;
-	
+
 	private Integer age;
 
 	@NotNull
@@ -34,4 +36,5 @@ public class PatientDto {
 	private String state;
 
 	private long pincode;
+
 }

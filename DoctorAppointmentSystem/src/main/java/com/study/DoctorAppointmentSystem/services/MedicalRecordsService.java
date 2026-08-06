@@ -1,5 +1,7 @@
 package com.study.DoctorAppointmentSystem.services;
 
+import java.util.List;
+
 import com.study.DoctorAppointmentSystem.dtos.MedicalRecordsDto;
 
 public interface MedicalRecordsService {
@@ -16,4 +18,6 @@ public interface MedicalRecordsService {
 	boolean checkMedicalRecordExistsOfPatient(Integer appointmentId);
 
 	MedicalRecordsDto updateMedicalRecord(Integer userId, Integer appointmentId, MedicalRecordsDto medicalRecordsDto);
+	
+	 List<MedicalRecordsDto> getAllMedicalRecordsOfPatient(Integer patientId);
 }

@@ -3,6 +3,7 @@ package com.study.DoctorAppointmentSystem.dtos;
 import java.time.LocalDate;
 
 import com.study.DoctorAppointmentSystem.entity.Appointment;
+import com.study.DoctorAppointmentSystem.entity.Patient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,5 +33,7 @@ public class MedicalRecordsDto {
 
 	private String medicalTest;
 
-	private Appointment appointment;
+    private Integer appointmentId;
+	
+	private Integer patientId;
 }
