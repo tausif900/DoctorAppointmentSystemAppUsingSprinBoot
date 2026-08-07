@@ -26,4 +26,13 @@ public class AdminServiceImpl implements AdminService {
 		return "Doctor Approved Successfully";
 	}
 
+	@Override
+	public String rejectDoctor(Integer docId) {
+		Doctor doctor = doctorRepository.findById(docId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+		doctor.setStatus(DoctorStatus.Rejected);
+		doctorRepository.save(doctor);
+		emailServiceImpl.sendRejectedMailToDoctor(doctor);
+		return "Admin Rejected your profile";
+	}
+
 }

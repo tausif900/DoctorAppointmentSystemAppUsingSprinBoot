@@ -78,4 +78,31 @@ public class EmailServiceImpl implements EmailService {
 		}
 	}
 
+	@Override
+	public void sendRejectedMailToDoctor(Doctor doctor) {
+		SimpleMailMessage mail = new SimpleMailMessage();
+
+		String to = doctor.getUser().getEmail();
+
+		String subject = "Doctor Registration Rejected";
+
+		String message = "Dear Dr. " + doctor.getUser().getName() + ",\n\n"
+				+ "We regret to inform you that your profile registration has been rejected by the Admin after reviewing your application.\n\n"
+				+ "As a result, your account has not been activated, and you are currently unable to access the Doctor Appointment System.\n\n"
+				+ "If you believe this decision was made in error or you require further clarification, please feel free to contact our support team.\n\n"
+				+ "Thank you for your interest in joining our platform. We wish you all the best in your future endeavors.\n\n"
+				+ "Best Regards,\n" + "Doctor Appointment System Team";
+		mail.setFrom(senderEmail);
+		mail.setTo(to);
+		mail.setSubject(subject);
+		mail.setText(message);
+
+		try {
+			javaMailSender.send(mail);
+			System.out.println("Mail sent");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

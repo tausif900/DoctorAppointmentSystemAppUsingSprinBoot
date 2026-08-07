@@ -15,4 +15,5 @@ public interface EmailService {
 
 	void sendApprovalMailToDoctor(Doctor doctor);
 
+	void sendRejectedMailToDoctor(Doctor doctor);
 }

@@ -21,4 +21,9 @@ public class AdminController {
 		return ResponseEntity.ok(adminService.approveDoctor(docId));
 	}
 
+	@PutMapping("reject-doctor/{docId}")
+	public ResponseEntity<String> rejectDoctor(@PathVariable Integer doctId) {
+		return null;
+	}
+
 }
