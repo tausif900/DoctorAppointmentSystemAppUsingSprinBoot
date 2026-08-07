@@ -43,7 +43,7 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 			Integer userId) {
 
 		User user = userRepositories.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-		
+
 		Appointment appointment = appointmentRepository.findById(appointmentId)
 				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 
@@ -109,6 +109,7 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 
 		MedicalRecords medicalRecord = medicalRecordRepository.findByAppointment(appointment)
 				.orElseThrow(() -> new RuntimeException("Medical Record Not Found"));
+		medicalRecord.setDoctorName(appointment.getDoctor().getUser().getName());
 
 		return modelMapper.map(medicalRecord, MedicalRecordsDto.class);
 	}
@@ -159,6 +160,7 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 			recordsDto.setAppointmentId(r.getAppointment().getId());
 			recordsDto.setPatientName(r.getPatient().getUser().getName());
 			recordsDto.setPatientId(r.getPatient().getPatientId());
+			recordsDto.setDoctorName(r.getAppointment().getDoctor().getUser().getName());
 			return recordsDto;
 		}).toList();
 		return records;

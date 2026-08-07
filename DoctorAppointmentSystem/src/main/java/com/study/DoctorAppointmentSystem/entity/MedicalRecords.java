@@ -48,6 +48,8 @@ public class MedicalRecords {
 	@OneToOne
 	private Appointment appointment;
 	
+	private String doctorName;
+	
 	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private Patient patient;

@@ -16,6 +16,8 @@ public class MedicalRecordsDto {
 	private Integer reportId;
 
 	private String patientName;
+	
+	private String doctorName;
 
 	private String diagnosis;
 
