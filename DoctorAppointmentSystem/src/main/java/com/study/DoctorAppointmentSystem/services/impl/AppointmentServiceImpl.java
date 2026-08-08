@@ -118,7 +118,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 			responseDto.setDateOfBirth(a.getPatient().getDateOfBirth());
 			responseDto.setAge(AgeUtil.calculateAge(a.getPatient().getDateOfBirth()));
 			responseDto.setGender(a.getPatient().getGender());
-
+			responseDto.setDocId(a.getDoctor().getDocId());
+			responseDto.setSpecialization(a.getDoctor().getSpecialization());
 			return responseDto;
 		}).toList();
 
