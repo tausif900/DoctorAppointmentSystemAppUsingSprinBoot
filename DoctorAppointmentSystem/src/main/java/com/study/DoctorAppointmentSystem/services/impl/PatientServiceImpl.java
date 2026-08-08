@@ -39,7 +39,13 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public List<PatientDto> getAllPatients() {
 		List<Patient> patients = patientRepository.findAll();
-		return patients.stream().map((p) -> modelMapper.map(p, PatientDto.class)).toList();
+		return patients.stream().map((p) -> {
+			PatientDto responseDto = modelMapper.map(p, PatientDto.class);
+			responseDto.setPatientName(p.getUser().getName());
+			responseDto.setEmail(p.getUser().getEmail());
+			responseDto.setPhoneNumber(p.getUser().getPhNo());
+			return responseDto;
+		}).toList();
 	}
 
 	@Override
@@ -48,6 +54,8 @@ public class PatientServiceImpl implements PatientService {
 		PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
 		patientDto.setPatientName(patient.getUser().getName());
 		patientDto.setAge(AgeUtil.calculateAge(patient.getDateOfBirth()));
+		patientDto.setEmail(patient.getUser().getEmail());
+		patientDto.setPhoneNumber(patient.getUser().getPhNo());
 		return patientDto;
 	}
 

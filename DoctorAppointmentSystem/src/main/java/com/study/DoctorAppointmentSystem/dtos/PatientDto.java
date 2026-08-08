@@ -27,6 +27,10 @@ public class PatientDto {
 	private String bloodGroup;
 
 	private Integer age;
+	
+	private String email;
+	
+	private String phoneNumber;
 
 	@NotNull
 	private String address;
