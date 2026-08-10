@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
+import com.study.DoctorAppointmentSystem.enums.PaymentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,4 +49,10 @@ public class Appointment {
 
 	@OneToOne(mappedBy = "appointment")
 	private MedicalRecords medicalRecord;
+
+	@Enumerated(EnumType.STRING)
+	private PaymentStatus paymentStatus;
+	
+	@OneToOne
+	private Payment payment;
 }

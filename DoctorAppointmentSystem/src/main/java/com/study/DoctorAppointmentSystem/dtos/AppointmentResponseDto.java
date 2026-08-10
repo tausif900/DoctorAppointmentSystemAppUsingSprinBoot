@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
+import com.study.DoctorAppointmentSystem.enums.PaymentStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,4 +38,6 @@ public class AppointmentResponseDto {
 	private LocalTime appointmentTime;
 
 	private AppointmentStatus status;
+
+	private PaymentStatus paymentStatus;
 }

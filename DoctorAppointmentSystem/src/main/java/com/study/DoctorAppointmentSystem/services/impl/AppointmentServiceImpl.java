@@ -20,6 +20,7 @@ import com.study.DoctorAppointmentSystem.entity.DoctorSlots;
 import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.entity.User;
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
+import com.study.DoctorAppointmentSystem.enums.PaymentStatus;
 import com.study.DoctorAppointmentSystem.enums.SlotsStatus;
 import com.study.DoctorAppointmentSystem.repository.AppointmentRepository;
 import com.study.DoctorAppointmentSystem.repository.DoctorRepository;
@@ -271,6 +272,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Appointment appointment = appointmentRepository.findById(appointmentId)
 				.orElseThrow(() -> new RuntimeException("Appointment not found"));
 		appointment.setStatus(AppointmentStatus.Completed);
+		appointment.setPaymentStatus(PaymentStatus.Pending);
 		Appointment savedAppointment = appointmentRepository.save(appointment);
 		AppointmentResponseDto responseDto = modelMapper.map(savedAppointment, AppointmentResponseDto.class);
 		return responseDto;
