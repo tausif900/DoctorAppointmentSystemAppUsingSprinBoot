@@ -37,6 +37,8 @@ public class AppointmentResponseDto {
 
 	private LocalTime appointmentTime;
 
+	private Integer consultationFee;
+
 	private AppointmentStatus status;
 
 	private PaymentStatus paymentStatus;

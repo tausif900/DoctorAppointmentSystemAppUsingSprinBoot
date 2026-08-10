@@ -1,6 +1,8 @@
 package com.study.DoctorAppointmentSystem.dtos;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+
 import com.study.DoctorAppointmentSystem.enums.PaymentStatus;
 
 import lombok.AllArgsConstructor;

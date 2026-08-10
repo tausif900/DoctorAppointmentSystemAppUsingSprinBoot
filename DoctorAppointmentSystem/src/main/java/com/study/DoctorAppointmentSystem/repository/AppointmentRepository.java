@@ -13,6 +13,7 @@ import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Doctor;
 import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.enums.AppointmentStatus;
+import com.study.DoctorAppointmentSystem.enums.PaymentStatus;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
@@ -55,5 +56,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 			AppointmentStatus status);
 
 	long countByStatus(AppointmentStatus status);
+
+	List<Appointment> findByPatientPatientIdAndPaymentStatusAndStatus(Integer patientId, PaymentStatus paymentStatus,
+			AppointmentStatus status);
 
 }

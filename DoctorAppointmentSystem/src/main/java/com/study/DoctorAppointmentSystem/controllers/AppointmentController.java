@@ -219,4 +219,13 @@ public class AppointmentController {
 		return ResponseEntity.ok(appointmentService.getCountOfPendingAppointments());
 	}
 
+	@GetMapping("/pending-payments")
+	public ResponseEntity<List<AppointmentResponseDto>> getPendingPaymentAppointments(
+			@AuthenticationPrincipal User user) {
+
+		List<AppointmentResponseDto> appointments = appointmentService.getPendingPaymentAppointments(user.getId());
+
+		return ResponseEntity.ok(appointments);
+	}
+
 }

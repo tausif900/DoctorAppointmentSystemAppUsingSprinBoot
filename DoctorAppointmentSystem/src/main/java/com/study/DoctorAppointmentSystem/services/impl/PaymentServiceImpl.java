@@ -2,16 +2,21 @@ package com.study.DoctorAppointmentSystem.services.impl;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.razorpay.Utils;
+import com.study.DoctorAppointmentSystem.dtos.PaymentResponseDto;
 import com.study.DoctorAppointmentSystem.entity.Appointment;
 import com.study.DoctorAppointmentSystem.entity.Patient;
 import com.study.DoctorAppointmentSystem.entity.Payment;
@@ -22,6 +27,7 @@ import com.study.DoctorAppointmentSystem.repository.PaymentRepository;
 import com.study.DoctorAppointmentSystem.repository.UserRepositories;
 import com.study.DoctorAppointmentSystem.services.PaymentService;
 
+@Service
 public class PaymentServiceImpl implements PaymentService {
 
 	@Value("${razorpay.key}")
@@ -78,6 +84,40 @@ public class PaymentServiceImpl implements PaymentService {
 		map.put("status", json.get("status"));
 
 		return map;
+	}
+
+	@Override
+	public boolean verifyPayment(String razorpayOrderId, String razorpayPaymentId, String razorpaySignature,
+			Integer appointmentId) {
+		Payment payment = paymentRepository.findByRazorpayOrderId(razorpayOrderId)
+				.orElseThrow(() -> new RuntimeException("Order id not found"));
+		Appointment appointment = appointmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new RuntimeException("Order id not found"));
+
+		JSONObject options = new JSONObject();
+		options.put("razorpay_order_id", razorpayOrderId);
+		options.put("razorpay_payment_id", razorpayPaymentId);
+		options.put("razorpay_signature", razorpaySignature);
+
+		try {
+			boolean isValid = Utils.verifyPaymentSignature(options, razorpaySecret);
+			if (!isValid) {
+				return false;
+			}
+			payment.setPaymentStatus(PaymentStatus.Paid);
+			payment.setRazorpayPaymentId(razorpayPaymentId);
+			paymentRepository.save(payment);
+
+			appointment.setPaymentStatus(PaymentStatus.Paid);
+
+			appointmentRepository.save(appointment);
+
+			return true;
+		} catch (RazorpayException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

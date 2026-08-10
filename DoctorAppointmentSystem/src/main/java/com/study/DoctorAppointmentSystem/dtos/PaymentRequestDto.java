@@ -11,4 +11,11 @@ public class PaymentRequestDto {
 	private Integer appointmentId;
 
 	private Integer paymentAmount;
+
+	private String razorpayPaymentId;
+
+	private String razorpayOrderId;
+
+	private String razorpaySignature;
+
 }
