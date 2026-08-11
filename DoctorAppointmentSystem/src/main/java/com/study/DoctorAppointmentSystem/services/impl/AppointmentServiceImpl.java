@@ -310,8 +310,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 				AppointmentStatus.Completed);
 		int totalCompletedVists = completedVisits.size();
 
-		long month = appointmentRepository.countByDoctorAndStatusAndAppointmentDateBetween(doctor,
-				AppointmentStatus.Completed, LocalDate.now().withDayOfMonth(1),
+		long month = appointmentRepository.countByDoctorAndStatusAndPaymentStatusAndAppointmentDateBetween(doctor,
+				AppointmentStatus.Completed, PaymentStatus.Paid, LocalDate.now().withDayOfMonth(1),
 				LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()));
 
 		DoctorDashboardDto dashboardDto = new DoctorDashboardDto();
@@ -416,7 +416,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Patient patient = user.getPatient();
 
 		List<Appointment> pendingPaymentAppointment = appointmentRepository
-				.findByPatientPatientIdAndPaymentStatusAndStatus(patient.getPatientId(), PaymentStatus.Pending,AppointmentStatus.Completed);
+				.findByPatientPatientIdAndPaymentStatusAndStatus(patient.getPatientId(), PaymentStatus.Pending,
+						AppointmentStatus.Completed);
 		List<AppointmentResponseDto> listOfPendingPaymentAppointments = pendingPaymentAppointment.stream().map((p) -> {
 			AppointmentResponseDto responseDto = modelMapper.map(p, AppointmentResponseDto.class);
 			responseDto.setDoctorName(p.getDoctor().getUser().getName());

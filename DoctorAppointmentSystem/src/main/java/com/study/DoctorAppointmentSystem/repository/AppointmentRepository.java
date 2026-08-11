@@ -32,8 +32,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@Query("SELECT COUNT(DISTINCT a.patient.patientId) FROM Appointment a WHERE a.doctor = :doctor")
 	long countDistinctPatientsByDoctor(@Param("doctor") Doctor doctor);
 
-	long countByDoctorAndStatusAndAppointmentDateBetween(Doctor doctor, AppointmentStatus status, LocalDate startDate,
-			LocalDate endDate);
+	long countByDoctorAndStatusAndPaymentStatusAndAppointmentDateBetween(Doctor doctor, AppointmentStatus status,
+			PaymentStatus paymentStatus, LocalDate startDate, LocalDate endDate);
 
 	long countByPatient(Patient patient);
 
