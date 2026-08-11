@@ -228,4 +228,9 @@ public class AppointmentController {
 		return ResponseEntity.ok(appointments);
 	}
 
+	@GetMapping("/completed-status")
+	public ResponseEntity<List<AppointmentResponseDto>> getCompletedAppointments() {
+		return ResponseEntity.ok(appointmentService.getCompletedAppointments());
+	}
+
 }

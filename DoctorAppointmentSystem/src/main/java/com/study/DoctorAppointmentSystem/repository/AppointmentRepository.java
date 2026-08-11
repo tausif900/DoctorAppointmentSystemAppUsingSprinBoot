@@ -62,4 +62,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
 	long countByDoctorAndStatusAndPaymentStatus(Doctor doctor, AppointmentStatus status, PaymentStatus paymentStatus);
 
+	List<Appointment> findByStatus(AppointmentStatus status);
 }

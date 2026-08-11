@@ -441,4 +441,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return listOfPendingPaymentAppointments;
 	}
 
+	@Override
+	public List<AppointmentResponseDto> getCompletedAppointments() {
+		List<Appointment> listOfCompletedAppointments = appointmentRepository.findByStatus(AppointmentStatus.Completed);
+		List<AppointmentResponseDto> list = listOfCompletedAppointments.stream().map((c) -> {
+			AppointmentResponseDto responseDto = modelMapper.map(c, AppointmentResponseDto.class);
+			responseDto.setDoctorName(c.getDoctor().getUser().getName());
+			responseDto.setConsultationFee(c.getDoctor().getConsultationFee());
+			responseDto.setPatientName(c.getPatient().getUser().getName());
+			return responseDto;
+		}).toList();
+
+		return list;
+	}
+
 }

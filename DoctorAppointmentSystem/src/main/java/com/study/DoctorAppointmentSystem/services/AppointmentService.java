@@ -51,8 +51,9 @@ public interface AppointmentService {
 	AppointmentResponseDto getLastConsultationDate(Integer userId);
 
 	Long getCountOfPendingAppointments();
-	
+
 	List<AppointmentResponseDto> getPendingPaymentAppointments(Integer patientId);
-	
-	
+
+	List<AppointmentResponseDto> getCompletedAppointments();
+
 }
