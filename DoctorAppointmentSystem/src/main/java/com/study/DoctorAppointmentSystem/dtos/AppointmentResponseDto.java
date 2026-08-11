@@ -38,6 +38,10 @@ public class AppointmentResponseDto {
 	private LocalTime appointmentTime;
 
 	private Integer consultationFee;
+	
+	private long paidCount;
+	
+	private long pendingCount;
 
 	private AppointmentStatus status;
 

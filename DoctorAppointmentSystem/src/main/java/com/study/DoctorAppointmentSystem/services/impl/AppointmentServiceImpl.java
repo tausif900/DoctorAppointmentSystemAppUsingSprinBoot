@@ -115,6 +115,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		List<AppointmentResponseDto> listOfAppointments = appointments.stream().map((a) -> {
 			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
 			responseDto.setPatientName(a.getPatient().getUser().getName());
+			responseDto.setConsultationFee(a.getDoctor().getConsultationFee());
 			responseDto.setDoctorName(a.getDoctor().getUser().getName());
 			responseDto.setDateOfBirth(a.getPatient().getDateOfBirth());
 			responseDto.setAge(AgeUtil.calculateAge(a.getPatient().getDateOfBirth()));
@@ -284,11 +285,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Doctor doctor = user.getDoctor();
 		List<Appointment> appointments = appointmentRepository.findByDoctorAndStatus(doctor,
 				AppointmentStatus.Completed);
+
+		long paidCount = appointmentRepository.countByDoctorAndStatusAndPaymentStatus(doctor,
+				AppointmentStatus.Completed, PaymentStatus.Paid);
+
+		long pendingCount = appointmentRepository.countByDoctorAndStatusAndPaymentStatus(doctor,
+				AppointmentStatus.Completed, PaymentStatus.Pending);
 		List<AppointmentResponseDto> listOfAppointmentHistory = appointments.stream().map((a) -> {
 			AppointmentResponseDto responseDto = modelMapper.map(a, AppointmentResponseDto.class);
 			responseDto.setPatientName(a.getPatient().getUser().getName());
+			responseDto.setConsultationFee(a.getDoctor().getConsultationFee());
 			responseDto.setAge(AgeUtil.calculateAge(a.getPatient().getDateOfBirth()));
 			responseDto.setGender(a.getPatient().getGender());
+			responseDto.setPaidCount(paidCount);
+			responseDto.setPendingCount(pendingCount);
 			return responseDto;
 		}).toList();
 
